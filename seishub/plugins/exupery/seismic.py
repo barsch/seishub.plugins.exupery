@@ -1,0 +1,169 @@
+# -*- coding: utf-8 -*-
+"""
+Exupery - WP3 - Seismic resources.
+
+Contact:
+ * 
+
+URL to external program to display time series
+"""
+
+from lxml.etree import Element, SubElement as Sub
+from seishub.core import Component, implements
+from seishub.db import util
+from seishub.packages.interfaces import ISQLView, IMapper
+from seishub.util.xmlwrapper import toString
+from sqlalchemy import sql
+
+
+class SeismicStationSQLView(Component):
+    """
+    Seismic station distribution layer.
+    """
+    implements(ISQLView)
+    
+    view_id = 'gis_seismic-station'
+    
+    def createView(self):
+        # filter indexes
+        catalog = self.env.catalog.index_catalog
+        xmlindex_list = catalog.getIndexes('seismology', 'station')
+        
+        filter = ['station_id', 'latitude', 'longitude', 'start_datetime', 
+                  'end_datetime'] 
+        xmlindex_list = [x for x in xmlindex_list if x.label in filter]
+        if not xmlindex_list:
+            return
+        # build up query
+        query, joins = catalog._createIndexView(xmlindex_list, compact = True)
+        
+        options = [
+            sql.func.random().label("random"),
+            sql.func.GeomFromText(
+                sql.text("'POINT(' || longitude.keyval || ' ' || " +\
+                         "latitude.keyval || ')', 4326")).label('geom')
+        ]
+        for option in options:
+            query.append_column(option)
+        query = query.select_from(joins)
+        return util.compileStatement(query)
+
+
+class SeismicEventSQLView(Component):
+    """
+    Creates SQL View for GPS Data components.
+    """
+    implements(ISQLView)
+    
+    view_id = 'gis_seismic-event'
+    
+    def createView(self):
+        # filter indexes
+        catalog = self.env.catalog.index_catalog
+        xmlindex_list = catalog.getIndexes('seismology', 'event')
+        filter = ['datetime', 'latitude', 'longitude', 'depth', 
+                  'magnitude', 'magnitude_type', 'event_type', 'np1_strike',
+                  'np1_dip', 'np1_rake', 'mt_mrr', 'mt_mtt', 'mt_mpp', 
+                  'mt_mrt', 'mt_mrp', 'mt_mtp', 'localisation_method'] 
+        xmlindex_list = [x for x in xmlindex_list if x.label in filter]
+        if not xmlindex_list:
+            return
+        # build up query
+        query, joins = catalog._createIndexView(xmlindex_list, compact = True)
+        options = [
+            sql.literal_column("datetime.keyval").label("end_datetime"),
+            sql.literal_column("datetime.keyval").label("start_datetime"),
+            sql.case(
+                value=sql.literal_column("localisation_method.keyval"),
+                whens = {'manual': 'circle'}, 
+                else_ = 'square').label('gis_localisation_method'), 
+            sql.func.GeomFromText(
+                sql.text("'POINT(' || longitude.keyval || ' ' || " +\
+                         "latitude.keyval || ')', 4326")).label('geom')
+        ]
+        for option in options:
+            query.append_column(option)
+        query = query.select_from(joins)
+        return util.compileStatement(query)
+
+
+class BeachballMapper(Component):
+    """
+    Returns a beachball image for the given parameters.
+    """
+    implements(IMapper)
+    
+    mapping_url = '/exupery/wp3/seismic/event/beachball'
+    
+    def process_GET(self, request):
+        from obspy.imaging.beachball import Beachball
+        # parse input arguments
+        try:
+            fm = request.args0.get('fm', '235, 80, 35')
+            size = int(request.args0.get('size', 100))
+            alpha = float(request.args0.get('alpha', 0.8))
+            linewidth = float(request.args0.get('linewidth', 2))
+            # try to parse fm
+            if fm.count(',')==2:
+                fm = fm.split(',')
+                fm = [float(fm[0]), float(fm[1]), float(fm[2])]
+            elif fm.count(',')==5:
+                fm = fm.split(',')
+                fm = [float(fm[0]), float(fm[1]), float(fm[2]),
+                      float(fm[3]), float(fm[4]), float(fm[5])]
+            else:
+                return ''
+        except:
+            return ''
+        if alpha<0 or alpha>1:
+            alpha = 1
+        if linewidth<0 or linewidth>10:
+            linewidth = 2
+        if size<100 or size>1000:
+            size = 100
+        
+        # generate correct header
+        request.setHeader('content-type', 'image/svg+xml; charset=UTF-8')
+        # create beachball
+        return Beachball(fm, size, format='svg', alpha=alpha, 
+                         linewidth=linewidth)
+
+
+class SeismicEventTypeMapper(Component):
+    """
+    Returns a list of seismic event types over a certain time span.
+    """
+    implements(IMapper)
+    
+    package_id = 'exupery'
+    mapping_url = '/exupery/wp3/seismic/event/eventtype'
+    
+    def process_GET(self, request):
+        # parse input arguments
+        args = {}
+        args['pid'] = request.args0.get('project_id', '')
+        args['vid'] = request.args0.get('volcano_id', '')
+        args['start'] = request.args0.get('start_datetime', 'NOW()')
+        args['end'] = request.args0.get('end_datetime', 'NOW()')
+        
+        # generate XML result
+        xml = Element("query")
+        # build up and execute query
+        query = sql.text("""
+            SELECT event_type, count(event_type) AS event_count
+            FROM "/seismology/event"
+            WHERE datetime >= :start
+            AND datetime <= :end
+            GROUP BY event_type;
+        """)
+        try:
+            result = self.env.db.query(query, **args)
+        except:
+            return toString(xml)
+        
+        for res in result:
+            if not res.event_type:
+                continue
+            s = Sub(xml, "eventcount", type=res.event_type)
+            s.text = str(res.event_count)
+        return toString(xml)

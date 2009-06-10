@@ -1,0 +1,97 @@
+<?xml version = '1.0'?>
+<xs:schema elementFormDefault="qualified"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:element name="MiniDOAS_data"
+        xmlns:xs="http://www.w3.org/2001/XMLSchema">
+        <xs:complexType xmlns:xs="http://www.w3.org/2001/XMLSchema">
+            <xs:sequence xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                <xs:element maxOccurs="1" minOccurs="1" name="station"
+                    xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                    <xs:complexType xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                        <xs:sequence
+                            xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                            <xs:element maxOccurs="1" minOccurs="1"
+                                name="serial" type="xs:string"
+                                xmlns:xs="http://www.w3.org/2001/XMLSchema" />
+                            <xs:element maxOccurs="1" minOccurs="1" name="site"
+                                type="xs:string"
+                                xmlns:xs="http://www.w3.org/2001/XMLSchema" />
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element maxOccurs="1" minOccurs="1" name="start_datetime"
+                    xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                    <xs:complexType xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                        <xs:sequence
+                            xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                            <xs:element maxOccurs="1" minOccurs="1"
+                                name="value"
+                                xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                                <xs:simpleType
+                                    xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                                    <xs:union memberTypes="xs:dateTime xs:date"
+                                       xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                                     />
+                                </xs:simpleType>
+                            </xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element maxOccurs="1" minOccurs="1" name="end_datetime"
+                    xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                    <xs:complexType xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                        <xs:sequence
+                            xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                            <xs:element maxOccurs="1" minOccurs="1"
+                                name="value"
+                                xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                                <xs:simpleType
+                                    xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                                    <xs:union memberTypes="xs:dateTime xs:date"
+                                       xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                                     />
+                                </xs:simpleType>
+                            </xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element maxOccurs="1" minOccurs="1" name="flux"
+                    type="xs:float" xmlns:xs="http://www.w3.org/2001/XMLSchema" />
+                <xs:element maxOccurs="1" minOccurs="1" name="windspeed"
+                    type="xs:float" xmlns:xs="http://www.w3.org/2001/XMLSchema" />
+                <xs:element maxOccurs="1" minOccurs="1" name="winddirection"
+                    type="xs:float" xmlns:xs="http://www.w3.org/2001/XMLSchema" />
+                <xs:element maxOccurs="1" minOccurs="1" name="windspeedsource"
+                    type="xs:string"
+                    xmlns:xs="http://www.w3.org/2001/XMLSchema" />
+                <xs:element maxOccurs="1" minOccurs="1"
+                    name="winddirectionsource" type="xs:string"
+                    xmlns:xs="http://www.w3.org/2001/XMLSchema" />
+                <xs:element maxOccurs="1" minOccurs="1" name="plumeheight"
+                    type="xs:float" xmlns:xs="http://www.w3.org/2001/XMLSchema" />
+                <xs:element maxOccurs="1" minOccurs="1"
+                    name="plumeheightsource" type="xs:string"
+                    xmlns:xs="http://www.w3.org/2001/XMLSchema" />
+                <xs:element maxOccurs="1" minOccurs="1" name="compassdirection"
+                    type="xs:float" xmlns:xs="http://www.w3.org/2001/XMLSchema" />
+                <xs:element maxOccurs="1" minOccurs="1" name="compasssource"
+                    type="xs:string"
+                    xmlns:xs="http://www.w3.org/2001/XMLSchema" />
+                <xs:element maxOccurs="1" minOccurs="1" name="plumecentre"
+                    type="xs:float" xmlns:xs="http://www.w3.org/2001/XMLSchema" />
+                <xs:element maxOccurs="1" minOccurs="1"
+                    name="plumecompleteness" type="xs:float"
+                    xmlns:xs="http://www.w3.org/2001/XMLSchema" />
+                <xs:element maxOccurs="1" minOccurs="1" name="temperature"
+                    type="xs:float" xmlns:xs="http://www.w3.org/2001/XMLSchema" />
+                <xs:element maxOccurs="1" minOccurs="1" name="batteryvoltage"
+                    type="xs:float" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                 />
+            </xs:sequence>
+            <xs:attribute name="project_id" type="xs:string" use="required"
+                xmlns:xs="http://www.w3.org/2001/XMLSchema" />
+            <xs:attribute name="volcano_id" type="xs:string" use="required"
+                xmlns:xs="http://www.w3.org/2001/XMLSchema" />
+        </xs:complexType>
+    </xs:element>
+</xs:schema>

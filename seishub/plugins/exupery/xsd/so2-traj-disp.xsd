@@ -1,0 +1,156 @@
+<?xml version = '1.0'?>
+<xs:schema elementFormDefault="qualified"
+  xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="Trajectories">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element maxOccurs="1" minOccurs="1" name="files">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element maxOccurs="unbounded" minOccurs="0" name="file">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element maxOccurs="1" minOccurs="1"
+                      name="original_path" type="xs:string" />
+                    <xs:element maxOccurs="1" minOccurs="1" name="local_path"
+                      type="xs:string" />
+                  </xs:sequence>
+                  <xs:attribute name="id" type="xs:string" use="required" />
+                  <xs:attribute name="format" type="xs:string" use="required" />
+                  <xs:attribute name="filesize" type="xs:int" use="required" />
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element maxOccurs="1" minOccurs="1" name="author" type="xs:string" />
+        <xs:element maxOccurs="1" minOccurs="0" name="mail_address"
+          type="xs:string" />
+        <xs:element maxOccurs="1" minOccurs="0" name="time_of_creation"
+          type="xs:dateTime" />
+        <xs:element maxOccurs="1" minOccurs="0" name="software"
+          type="xs:string" />
+        <xs:element maxOccurs="1" minOccurs="1" name="latitude">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element maxOccurs="1" minOccurs="1" name="value"
+                type="xs:float" />
+              <xs:element maxOccurs="1" minOccurs="0" name="lowerUncertainty"
+                type="xs:float" />
+              <xs:element maxOccurs="1" minOccurs="0" name="upperUncertainty"
+                type="xs:float" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element maxOccurs="1" minOccurs="1" name="longitude">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element maxOccurs="1" minOccurs="1" name="value"
+                type="xs:float" />
+              <xs:element maxOccurs="1" minOccurs="0" name="lowerUncertainty"
+                type="xs:float" />
+              <xs:element maxOccurs="1" minOccurs="0" name="upperUncertainty"
+                type="xs:float" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element maxOccurs="1" minOccurs="1" name="range_upperleft">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element maxOccurs="1" minOccurs="1" name="latitude">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element maxOccurs="1" minOccurs="1" name="value"
+                      type="xs:float" />
+                    <xs:element maxOccurs="1" minOccurs="0"
+                      name="lowerUncertainty" type="xs:float" />
+                    <xs:element maxOccurs="1" minOccurs="0"
+                      name="upperUncertainty" type="xs:float" />
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element maxOccurs="1" minOccurs="1" name="longitude">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element maxOccurs="1" minOccurs="1" name="value"
+                      type="xs:float" />
+                    <xs:element maxOccurs="1" minOccurs="0"
+                      name="lowerUncertainty" type="xs:float" />
+                    <xs:element maxOccurs="1" minOccurs="0"
+                      name="upperUncertainty" type="xs:float" />
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element maxOccurs="1" minOccurs="1" name="range_lowerright">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element maxOccurs="1" minOccurs="1" name="latitude">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element maxOccurs="1" minOccurs="1" name="value"
+                      type="xs:float" />
+                    <xs:element maxOccurs="1" minOccurs="0"
+                      name="lowerUncertainty" type="xs:float" />
+                    <xs:element maxOccurs="1" minOccurs="0"
+                      name="upperUncertainty" type="xs:float" />
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element maxOccurs="1" minOccurs="1" name="longitude">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element maxOccurs="1" minOccurs="1" name="value"
+                      type="xs:float" />
+                    <xs:element maxOccurs="1" minOccurs="0"
+                      name="lowerUncertainty" type="xs:float" />
+                    <xs:element maxOccurs="1" minOccurs="0"
+                      name="upperUncertainty" type="xs:float" />
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element maxOccurs="1" minOccurs="1" name="start_datetime">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element maxOccurs="1" minOccurs="1" name="value">
+                <xs:simpleType>
+                  <xs:union memberTypes="xs:dateTime xs:date" />
+                </xs:simpleType>
+              </xs:element>
+              <xs:element maxOccurs="1" minOccurs="0" name="lowerUncertainty"
+                type="xs:float" />
+              <xs:element maxOccurs="1" minOccurs="0" name="upperUncertainty"
+                type="xs:float" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element maxOccurs="1" minOccurs="1" name="end_datetime">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element maxOccurs="1" minOccurs="1" name="value">
+                <xs:simpleType>
+                  <xs:union memberTypes="xs:dateTime xs:date" />
+                </xs:simpleType>
+              </xs:element>
+              <xs:element maxOccurs="1" minOccurs="0" name="lowerUncertainty"
+                type="xs:float" />
+              <xs:element maxOccurs="1" minOccurs="0" name="upperUncertainty"
+                type="xs:float" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element maxOccurs="1" minOccurs="0" name="number_of_trajectories"
+          type="xs:int" />
+        <xs:element maxOccurs="1" minOccurs="1" name="data"
+          type="xs:anyType" />
+      </xs:sequence>
+      <xs:attribute name="project_id" type="xs:string" use="required" />
+      <xs:attribute name="volcano_id" type="xs:string" use="required" />
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

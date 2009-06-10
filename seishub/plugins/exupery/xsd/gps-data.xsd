@@ -1,0 +1,281 @@
+<?xml version = '1.0'?>
+<xs:schema elementFormDefault="qualified"
+  xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="GBSAR_GPS">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element maxOccurs="1" minOccurs="1" name="author" type="xs:string" />
+        <xs:element maxOccurs="1" minOccurs="1" name="datetime">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element maxOccurs="1" minOccurs="1" name="value">
+                <xs:simpleType>
+                  <xs:union memberTypes="xs:dateTime xs:date" />
+                </xs:simpleType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element maxOccurs="1" minOccurs="1" name="station">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element maxOccurs="1" minOccurs="1" name="name"
+                type="xs:string" />
+              <xs:element maxOccurs="1" minOccurs="1" name="coords_epoch0">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element maxOccurs="1" minOccurs="1" name="latitude">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element maxOccurs="1" minOccurs="1" name="value"
+                            type="xs:float" />
+                          <xs:element maxOccurs="1" minOccurs="0" name="std"
+                            type="xs:float" />
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element maxOccurs="1" minOccurs="1" name="longitude">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element maxOccurs="1" minOccurs="1" name="value"
+                            type="xs:float" />
+                          <xs:element maxOccurs="1" minOccurs="0" name="std"
+                            type="xs:float" />
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element maxOccurs="1" minOccurs="1" name="height">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element maxOccurs="1" minOccurs="1" name="value"
+                            type="xs:float" />
+                          <xs:element maxOccurs="1" minOccurs="0" name="std"
+                            type="xs:float" />
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element maxOccurs="1" minOccurs="0" name="datetime"
+                      type="xs:dateTime" />
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element maxOccurs="1" minOccurs="1" name="instruments">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element maxOccurs="1" minOccurs="1" name="gps_receiver">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element maxOccurs="1" minOccurs="1" name="type"
+                      type="xs:string" />
+                    <xs:element maxOccurs="1" minOccurs="1" name="name"
+                      type="xs:string" />
+                    <xs:element maxOccurs="1" minOccurs="1" name="serial_nr"
+                      type="xs:string" />
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element maxOccurs="1" minOccurs="1" name="gps_antenna">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element maxOccurs="1" minOccurs="1" name="type"
+                      type="xs:string" />
+                    <xs:element maxOccurs="1" minOccurs="1" name="serial_nr"
+                      type="xs:string" />
+                    <xs:element maxOccurs="1" minOccurs="1" name="height"
+                      type="xs:float" />
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element maxOccurs="1" minOccurs="1" name="meshnode">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element maxOccurs="1" minOccurs="1" name="name"
+                      type="xs:string" />
+                    <xs:element maxOccurs="1" minOccurs="1" name="serial_nr"
+                      type="xs:string" />
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element maxOccurs="1" minOccurs="0" name="weather_station">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element maxOccurs="1" minOccurs="1" name="name"
+                      type="xs:string" />
+                    <xs:element maxOccurs="1" minOccurs="1" name="serial_nr"
+                      type="xs:string" />
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element maxOccurs="1" minOccurs="1" name="data">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element maxOccurs="1" minOccurs="1" name="epoch">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element maxOccurs="1" minOccurs="1"
+                      name="start_datetime">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element maxOccurs="1" minOccurs="1" name="value">
+                            <xs:simpleType>
+                              <xs:union memberTypes="xs:dateTime xs:date" />
+                            </xs:simpleType>
+                          </xs:element>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element maxOccurs="1" minOccurs="1" name="end_datetime">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element maxOccurs="1" minOccurs="1" name="value">
+                            <xs:simpleType>
+                              <xs:union memberTypes="xs:dateTime xs:date" />
+                            </xs:simpleType>
+                          </xs:element>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element maxOccurs="1" minOccurs="1"
+                name="absolute_displacement">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element maxOccurs="1" minOccurs="1" name="dlat_m">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element maxOccurs="1" minOccurs="1" name="value"
+                            type="xs:float" />
+                          <xs:element maxOccurs="1" minOccurs="0" name="std"
+                            type="xs:float" />
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element maxOccurs="1" minOccurs="1" name="dlon_m">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element maxOccurs="1" minOccurs="1" name="value"
+                            type="xs:float" />
+                          <xs:element maxOccurs="1" minOccurs="0" name="std"
+                            type="xs:float" />
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element maxOccurs="1" minOccurs="1" name="dh_m">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element maxOccurs="1" minOccurs="1" name="value"
+                            type="xs:float" />
+                          <xs:element maxOccurs="1" minOccurs="0" name="std"
+                            type="xs:float" />
+                          <xs:element maxOccurs="1" minOccurs="0" name="conf"
+                            type="xs:float" />
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element maxOccurs="1" minOccurs="1" name="conf_ellipse">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element maxOccurs="1" minOccurs="1" name="a"
+                            type="xs:float" />
+                          <xs:element maxOccurs="1" minOccurs="1" name="b"
+                            type="xs:float" />
+                          <xs:element maxOccurs="1" minOccurs="1"
+                            name="azimuth_a" type="xs:float" />
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element maxOccurs="1" minOccurs="1"
+                name="relative_displacement">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element maxOccurs="1" minOccurs="1" name="dlat_m">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element maxOccurs="1" minOccurs="1" name="value"
+                            type="xs:float" />
+                          <xs:element maxOccurs="1" minOccurs="0" name="std"
+                            type="xs:float" />
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element maxOccurs="1" minOccurs="1" name="dlon_m">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element maxOccurs="1" minOccurs="1" name="value"
+                            type="xs:float" />
+                          <xs:element maxOccurs="1" minOccurs="0" name="std"
+                            type="xs:float" />
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element maxOccurs="1" minOccurs="1" name="dh_m">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element maxOccurs="1" minOccurs="1" name="value"
+                            type="xs:float" />
+                          <xs:element maxOccurs="1" minOccurs="0" name="std"
+                            type="xs:float" />
+                          <xs:element maxOccurs="1" minOccurs="0" name="conf"
+                            type="xs:float" />
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element maxOccurs="1" minOccurs="1" name="conf_ellipse">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element maxOccurs="1" minOccurs="1" name="a"
+                            type="xs:float" />
+                          <xs:element maxOccurs="1" minOccurs="1" name="b"
+                            type="xs:float" />
+                          <xs:element maxOccurs="1" minOccurs="1"
+                            name="azimuth_a" type="xs:float" />
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element maxOccurs="1" minOccurs="1"
+                      name="reference_time">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element maxOccurs="1" minOccurs="1" name="value">
+                            <xs:simpleType>
+                              <xs:union memberTypes="xs:dateTime xs:date" />
+                            </xs:simpleType>
+                          </xs:element>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element maxOccurs="1" minOccurs="0" name="meteorology">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element maxOccurs="1" minOccurs="1" name="air_pressure_hPa"
+                type="xs:float" />
+              <xs:element maxOccurs="1" minOccurs="1"
+                name="air_humidity_percent" type="xs:float" />
+              <xs:element maxOccurs="1" minOccurs="1"
+                name="air_temperature_degC" type="xs:float" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute name="project_id" type="xs:string" use="required" />
+      <xs:attribute name="volcano_id" type="xs:string" use="required" />
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

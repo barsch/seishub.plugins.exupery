@@ -1,0 +1,231 @@
+<?xml version = '1.0'?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" >
+  <xs:element xmlns:xs="http://www.w3.org/2001/XMLSchema" name="GBSAR_IBIS" >
+    <xs:complexType xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:sequence xmlns:xs="http://www.w3.org/2001/XMLSchema">
+        <xs:element xmlns:xs="http://www.w3.org/2001/XMLSchema" maxOccurs="1" type="xs:string" name="author" minOccurs="1" />
+        <xs:element xmlns:xs="http://www.w3.org/2001/XMLSchema" maxOccurs="1" minOccurs="1" name="datetime" >
+          <xs:complexType xmlns:xs="http://www.w3.org/2001/XMLSchema">
+            <xs:sequence xmlns:xs="http://www.w3.org/2001/XMLSchema">
+              <xs:element xmlns:xs="http://www.w3.org/2001/XMLSchema" maxOccurs="1" minOccurs="1" name="value" >
+                <xs:simpleType xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                  <xs:union xmlns:xs="http://www.w3.org/2001/XMLSchema" memberTypes="xs:dateTime xs:date" />
+                </xs:simpleType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element xmlns:xs="http://www.w3.org/2001/XMLSchema" maxOccurs="1" minOccurs="1" name="station" >
+          <xs:complexType xmlns:xs="http://www.w3.org/2001/XMLSchema">
+            <xs:sequence xmlns:xs="http://www.w3.org/2001/XMLSchema">
+              <xs:element xmlns:xs="http://www.w3.org/2001/XMLSchema" maxOccurs="1" type="xs:string" minOccurs="1" name="name" />
+              <xs:element xmlns:xs="http://www.w3.org/2001/XMLSchema" maxOccurs="1" minOccurs="1" name="coords" >
+                <xs:complexType xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                  <xs:sequence xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                    <xs:element xmlns:xs="http://www.w3.org/2001/XMLSchema" maxOccurs="1" minOccurs="1" name="latitude" >
+                      <xs:complexType xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                        <xs:sequence xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                          <xs:element xmlns:xs="http://www.w3.org/2001/XMLSchema" maxOccurs="1" type="xs:float" minOccurs="1" name="value" />
+                          <xs:element xmlns:xs="http://www.w3.org/2001/XMLSchema" maxOccurs="1" type="xs:float" minOccurs="0" name="std" />
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element xmlns:xs="http://www.w3.org/2001/XMLSchema" maxOccurs="1" minOccurs="1" name="longitude" >
+                      <xs:complexType xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                        <xs:sequence xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                          <xs:element xmlns:xs="http://www.w3.org/2001/XMLSchema" maxOccurs="1" type="xs:float" minOccurs="1" name="value" />
+                          <xs:element xmlns:xs="http://www.w3.org/2001/XMLSchema" maxOccurs="1" type="xs:float" minOccurs="0" name="std" />
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element xmlns:xs="http://www.w3.org/2001/XMLSchema" maxOccurs="1" minOccurs="1" name="height" >
+                      <xs:complexType xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                        <xs:sequence xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                          <xs:element xmlns:xs="http://www.w3.org/2001/XMLSchema" maxOccurs="1" type="xs:float" minOccurs="1" name="value" />
+                          <xs:element xmlns:xs="http://www.w3.org/2001/XMLSchema" maxOccurs="1" type="xs:float" minOccurs="0" name="std" />
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element xmlns:xs="http://www.w3.org/2001/XMLSchema" maxOccurs="1" minOccurs="1" name="instruments" >
+          <xs:complexType xmlns:xs="http://www.w3.org/2001/XMLSchema">
+            <xs:sequence xmlns:xs="http://www.w3.org/2001/XMLSchema">
+              <xs:element xmlns:xs="http://www.w3.org/2001/XMLSchema" maxOccurs="1" minOccurs="1" name="ibisl" >
+                <xs:complexType xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                  <xs:sequence xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                    <xs:element xmlns:xs="http://www.w3.org/2001/XMLSchema" maxOccurs="1" type="xs:string" name="name" minOccurs="1" />
+                    <xs:element xmlns:xs="http://www.w3.org/2001/XMLSchema" maxOccurs="1" type="xs:string" name="serial_nr" minOccurs="1" />
+                    <xs:element xmlns:xs="http://www.w3.org/2001/XMLSchema" maxOccurs="1" type="xs:float" name="height" minOccurs="1" />
+                    <xs:element xmlns:xs="http://www.w3.org/2001/XMLSchema" maxOccurs="1" type="xs:float" name="azimuth" minOccurs="1" />
+                    <xs:element xmlns:xs="http://www.w3.org/2001/XMLSchema" maxOccurs="1" type="xs:float" name="elevation_angle" minOccurs="1" />
+                    <xs:element xmlns:xs="http://www.w3.org/2001/XMLSchema" maxOccurs="1" type="xs:long" name="frequency" minOccurs="1" />
+                    <xs:element xmlns:xs="http://www.w3.org/2001/XMLSchema" maxOccurs="1" type="xs:long" name="bandwidth" minOccurs="1" />
+                    <xs:element xmlns:xs="http://www.w3.org/2001/XMLSchema" maxOccurs="1" type="xs:float" name="rail_length" minOccurs="1" />
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element xmlns:xs="http://www.w3.org/2001/XMLSchema" maxOccurs="1" minOccurs="1" name="meshnode" >
+                <xs:complexType xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                  <xs:sequence xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                    <xs:element xmlns:xs="http://www.w3.org/2001/XMLSchema" maxOccurs="1" type="xs:string" name="name" minOccurs="1" />
+                    <xs:element xmlns:xs="http://www.w3.org/2001/XMLSchema" maxOccurs="1" type="xs:string" name="serial_nr" minOccurs="1" />
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element xmlns:xs="http://www.w3.org/2001/XMLSchema" maxOccurs="1" name="files" minOccurs="1" >
+          <xs:complexType xmlns:xs="http://www.w3.org/2001/XMLSchema">
+            <xs:sequence xmlns:xs="http://www.w3.org/2001/XMLSchema">
+              <xs:element xmlns:xs="http://www.w3.org/2001/XMLSchema" maxOccurs="unbounded" name="file" minOccurs="0" >
+                <xs:complexType xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                  <xs:sequence xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                    <xs:element xmlns:xs="http://www.w3.org/2001/XMLSchema" maxOccurs="1" type="xs:string" minOccurs="0" name="original_path" />
+                    <xs:element xmlns:xs="http://www.w3.org/2001/XMLSchema" maxOccurs="1" type="xs:string" minOccurs="1" name="local_path" />
+                  </xs:sequence>
+                  <xs:attribute xmlns:xs="http://www.w3.org/2001/XMLSchema" use="required" type="xs:string" name="id" />
+                  <xs:attribute xmlns:xs="http://www.w3.org/2001/XMLSchema" use="required" type="xs:string" name="format" />
+                  <xs:attribute xmlns:xs="http://www.w3.org/2001/XMLSchema" use="required" type="xs:int" name="filesize" />
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element xmlns:xs="http://www.w3.org/2001/XMLSchema" maxOccurs="1" minOccurs="1" name="image_information" >
+          <xs:complexType xmlns:xs="http://www.w3.org/2001/XMLSchema">
+            <xs:sequence xmlns:xs="http://www.w3.org/2001/XMLSchema">
+              <xs:element xmlns:xs="http://www.w3.org/2001/XMLSchema" maxOccurs="1" minOccurs="1" name="range_upperleft" >
+                <xs:complexType xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                  <xs:sequence xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                    <xs:element xmlns:xs="http://www.w3.org/2001/XMLSchema" maxOccurs="1" minOccurs="1" name="latitude" >
+                      <xs:complexType xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                        <xs:sequence xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                          <xs:element xmlns:xs="http://www.w3.org/2001/XMLSchema" maxOccurs="1" type="xs:float" minOccurs="1" name="value" />
+                          <xs:element xmlns:xs="http://www.w3.org/2001/XMLSchema" maxOccurs="1" type="xs:float" minOccurs="0" name="std" />
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element xmlns:xs="http://www.w3.org/2001/XMLSchema" maxOccurs="1" minOccurs="1" name="longitude" >
+                      <xs:complexType xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                        <xs:sequence xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                          <xs:element xmlns:xs="http://www.w3.org/2001/XMLSchema" maxOccurs="1" type="xs:float" minOccurs="1" name="value" />
+                          <xs:element xmlns:xs="http://www.w3.org/2001/XMLSchema" maxOccurs="1" type="xs:float" minOccurs="0" name="std" />
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element xmlns:xs="http://www.w3.org/2001/XMLSchema" maxOccurs="1" minOccurs="1" name="range_lowerright" >
+                <xs:complexType xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                  <xs:sequence xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                    <xs:element xmlns:xs="http://www.w3.org/2001/XMLSchema" maxOccurs="1" minOccurs="1" name="latitude" >
+                      <xs:complexType xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                        <xs:sequence xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                          <xs:element xmlns:xs="http://www.w3.org/2001/XMLSchema" maxOccurs="1" type="xs:float" minOccurs="1" name="value" />
+                          <xs:element xmlns:xs="http://www.w3.org/2001/XMLSchema" maxOccurs="1" type="xs:float" minOccurs="0" name="std" />
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element xmlns:xs="http://www.w3.org/2001/XMLSchema" maxOccurs="1" minOccurs="1" name="longitude" >
+                      <xs:complexType xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                        <xs:sequence xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                          <xs:element xmlns:xs="http://www.w3.org/2001/XMLSchema" maxOccurs="1" type="xs:float" minOccurs="1" name="value" />
+                          <xs:element xmlns:xs="http://www.w3.org/2001/XMLSchema" maxOccurs="1" type="xs:float" minOccurs="0" name="std" />
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element xmlns:xs="http://www.w3.org/2001/XMLSchema" maxOccurs="1" minOccurs="1" name="range_losdisplacement" >
+                <xs:complexType xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                  <xs:sequence xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                    <xs:element xmlns:xs="http://www.w3.org/2001/XMLSchema" maxOccurs="1" type="xs:float" minOccurs="1" name="minimum_value" />
+                    <xs:element xmlns:xs="http://www.w3.org/2001/XMLSchema" maxOccurs="1" type="xs:float" minOccurs="1" name="maximum_value" />
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+	      <xs:element xmlns:xs="http://www.w3.org/2001/XMLSchema" maxOccurs="1" minOccurs="1" name="range_coherence" >
+		      <xs:complexType xmlns:xs="http://www.w3.org/2001/XMLSchema">
+			      <xs:sequence xmlns:xs="http://www.w3.org/2001/XMLSchema">
+				      <xs:element xmlns:xs="http://www.w3.org/2001/XMLSchema" maxOccurs="1" type="xs:int" minOccurs="1" name="minimum_value" />
+				      <xs:element xmlns:xs="http://www.w3.org/2001/XMLSchema" maxOccurs="1" type="xs:int" minOccurs="1" name="maximum_value" />
+			      </xs:sequence>
+		      </xs:complexType>
+	      </xs:element>
+              <xs:element xmlns:xs="http://www.w3.org/2001/XMLSchema" maxOccurs="1" minOccurs="1" name="master_image" >
+                <xs:complexType xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                  <xs:sequence xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                    <xs:element xmlns:xs="http://www.w3.org/2001/XMLSchema" maxOccurs="1" minOccurs="1" name="start_datetime" >
+                      <xs:complexType xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                        <xs:sequence xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                          <xs:element xmlns:xs="http://www.w3.org/2001/XMLSchema" maxOccurs="1" minOccurs="1" name="value" >
+                            <xs:simpleType xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                              <xs:union xmlns:xs="http://www.w3.org/2001/XMLSchema" memberTypes="xs:dateTime xs:date" />
+                            </xs:simpleType>
+                          </xs:element>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element xmlns:xs="http://www.w3.org/2001/XMLSchema" maxOccurs="1" minOccurs="1" name="end_datetime" >
+                      <xs:complexType xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                        <xs:sequence xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                          <xs:element xmlns:xs="http://www.w3.org/2001/XMLSchema" maxOccurs="1" minOccurs="1" name="value" >
+                            <xs:simpleType xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                              <xs:union xmlns:xs="http://www.w3.org/2001/XMLSchema" memberTypes="xs:dateTime xs:date" />
+                            </xs:simpleType>
+                          </xs:element>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element xmlns:xs="http://www.w3.org/2001/XMLSchema" maxOccurs="1" minOccurs="1" name="slave_image" >
+                <xs:complexType xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                  <xs:sequence xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                    <xs:element xmlns:xs="http://www.w3.org/2001/XMLSchema" maxOccurs="1" minOccurs="1" name="start_datetime" >
+                      <xs:complexType xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                        <xs:sequence xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                          <xs:element xmlns:xs="http://www.w3.org/2001/XMLSchema" maxOccurs="1" minOccurs="1" name="value" >
+                            <xs:simpleType xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                              <xs:union xmlns:xs="http://www.w3.org/2001/XMLSchema" memberTypes="xs:dateTime xs:date" />
+                            </xs:simpleType>
+                          </xs:element>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element xmlns:xs="http://www.w3.org/2001/XMLSchema" maxOccurs="1" minOccurs="1" name="end_datetime" >
+                      <xs:complexType xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                        <xs:sequence xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                          <xs:element xmlns:xs="http://www.w3.org/2001/XMLSchema" maxOccurs="1" minOccurs="1" name="value" >
+                            <xs:simpleType xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                              <xs:union xmlns:xs="http://www.w3.org/2001/XMLSchema" memberTypes="xs:dateTime xs:date" />
+                            </xs:simpleType>
+                          </xs:element>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element xmlns:xs="http://www.w3.org/2001/XMLSchema" maxOccurs="1" type="xs:string" minOccurs="1" name="external_DEM" />
+              <xs:element xmlns:xs="http://www.w3.org/2001/XMLSchema" maxOccurs="1" type="xs:string" minOccurs="1" name="atmospheric_correction" />
+              <xs:element xmlns:xs="http://www.w3.org/2001/XMLSchema" maxOccurs="1" type="xs:int" minOccurs="1" name="temporal_baseline" />
+              <xs:element xmlns:xs="http://www.w3.org/2001/XMLSchema" maxOccurs="1" type="xs:int" minOccurs="1" name="spatial_baseline" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute xmlns:xs="http://www.w3.org/2001/XMLSchema" use="required" type="xs:string" name="project_id" />
+      <xs:attribute xmlns:xs="http://www.w3.org/2001/XMLSchema" use="required" type="xs:string" name="volcano_id" />
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
