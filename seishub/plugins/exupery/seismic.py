@@ -14,6 +14,7 @@ from seishub.db import util
 from seishub.packages.interfaces import ISQLView, IMapper
 from seishub.util.xmlwrapper import toString
 from sqlalchemy import sql
+from seishub.registry.defaults import miniseed_tab
 
 
 class SeismicStationSQLView(Component):
@@ -29,8 +30,8 @@ class SeismicStationSQLView(Component):
         catalog = self.env.catalog.index_catalog
         xmlindex_list = catalog.getIndexes('seismology', 'station')
         
-        filter = ['station_id', 'latitude', 'longitude', 'start_datetime', 
-                  'end_datetime'] 
+        filter = ['network_id', 'location_id', 'station_id', 'latitude', 
+                  'longitude', 'start_datetime', 'end_datetime'] 
         xmlindex_list = [x for x in xmlindex_list if x.label in filter]
         if not xmlindex_list:
             return
@@ -45,6 +46,44 @@ class SeismicStationSQLView(Component):
         ]
         for option in options:
             query.append_column(option)
+        query = query.select_from(joins)
+        return util.compileStatement(query)
+
+
+class SeismicStationActivitySQLView(Component):
+    """
+    Seismic station distribution layer.
+    """
+    implements(ISQLView)
+    
+    view_id = 'gis_seismic-station-activity'
+    
+    def createView(self):
+        # filter indexes
+        catalog = self.env.catalog.index_catalog
+        xmlindex_list = catalog.getIndexes('seismology', 'station')
+        
+        filter = ['network_id', 'location_id', 'station_id', 'channel_id',
+                  'latitude', 'longitude', 'start_datetime', 'end_datetime'] 
+        xmlindex_list = [x for x in xmlindex_list if x.label in filter]
+        if not xmlindex_list:
+            return
+        # build up query
+        query, joins = catalog._createIndexView(xmlindex_list, compact = True)
+        
+        options = [
+            miniseed_tab.c.end_datetime.label("latency"),
+            sql.func.random().label("random"),
+#            sql.func.GeomFromText(
+#                sql.text("'POINT(' || longitude.keyval || ' ' || " +\
+#                         "latitude.keyval || ')', 4326")).label('geom')
+        ]
+        for option in options:
+            query.append_column(option)
+        import pdb;pdb.set_trace()
+        oncl = (miniseed_tab.c['channel_id'] == sql.literal_column("channel_id.keyval"))
+        joins = document_tab.join(resource_tab, onclause = oncl)
+        
         query = query.select_from(joins)
         return util.compileStatement(query)
 
