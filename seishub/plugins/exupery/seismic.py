@@ -74,6 +74,7 @@ class SeismicStationActivitySQLView(Component):
 
         options = [
             sql.functions.max(miniseed_tab.c.end_datetime).label("latest_activity"),
+            # XXX: not UTC!!!!
             (sql.func.now() - sql.functions.max(miniseed_tab.c.end_datetime)).label("latency"),
             sql.func.random().label("random"),
             sql.func.GeomFromText(
