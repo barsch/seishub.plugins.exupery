@@ -150,6 +150,7 @@
               <xs:element xmlns:xs="http://www.w3.org/2001/XMLSchema" maxOccurs="1" type="xs:float" minOccurs="0" name="percentage_of_area_of_thermal_anomaly" />
               <xs:element xmlns:xs="http://www.w3.org/2001/XMLSchema" maxOccurs="1" type="xs:float" minOccurs="0" name="radiant_flux_MW" />
               <xs:element xmlns:xs="http://www.w3.org/2001/XMLSchema" maxOccurs="1" type="xs:float" minOccurs="0" name="effusion_rate_m3_s" />
+              <xs:element xmlns:xs="http://www.w3.org/2001/XMLSchema" maxOccurs="1" type="xs:int" minOccurs="0" name="sun_glint_degrees" />
               <xs:element xmlns:xs="http://www.w3.org/2001/XMLSchema" maxOccurs="1" type="xs:int" minOccurs="1" name="thermal_anomaly_alert_level" />
             </xs:sequence>
           </xs:complexType>
