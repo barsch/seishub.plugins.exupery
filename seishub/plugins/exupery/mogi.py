@@ -65,12 +65,7 @@ class MogiGeoTIFFMapper(Component):
         query = sql.text("""
            SELECT 
                document_id, 
-               volcano_id, 
                datetime, 
-               upperleft_latitude, 
-               upperleft_longitude, 
-               lowerright_latitude, 
-               lowerright_longitude, 
                local_path_image_pressure,
                local_path_image_s1,
                local_path_image_s2,
@@ -93,13 +88,7 @@ class MogiGeoTIFFMapper(Component):
         for i in result:
             for type, image_id in image_types.iteritems():
                 s = Sub(xml, "resource", document_id=str(i.document_id))
-                Sub(s, 'volcano_id').text = i.volcano_id
                 Sub(s, 'type').text = type
                 Sub(s, 'datetime').text = (i.datetime).isoformat()
-                Sub(s, 'upperleft_latitude').text = str(i.upperleft_latitude)
-                Sub(s, 'upperleft_longitude').text = str(i.upperleft_longitude)
-                Sub(s, 'lowerright_latitude').text = str(i.lowerright_latitude)
-                temp = Sub(s, 'lowerright_longitude')
-                temp.text = str(i.lowerright_longitude)
                 Sub(s, 'url').text = 'local://' + i[image_id]
         return toString(xml)

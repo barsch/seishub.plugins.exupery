@@ -32,7 +32,7 @@ class SeismicStationSQLView(Component):
         xmlindex_list = catalog.getIndexes('seismology', 'station')
 
         filter = ['network_id', 'location_id', 'station_id', 'latitude',
-                  'longitude', 'start_datetime', 'end_datetime']
+                  'longitude', 'start_datetime', 'end_datetime', 'quality']
         xmlindex_list = [x for x in xmlindex_list if x.label in filter]
         if not xmlindex_list:
             return

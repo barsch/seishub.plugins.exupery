@@ -60,13 +60,8 @@ class PSIKMLMapper(Component):
         query = sql.text("""
             SELECT
                 document_id, 
-                volcano_id, 
                 start_datetime, 
                 end_datetime, 
-                upperleft_latitude, 
-                upperleft_longitude, 
-                lowerright_latitude, 
-                lowerright_longitude,
                 local_path_kml
             FROM "/exupery/psi"
             WHERE local_path_kml IS NOT NULL
@@ -79,12 +74,7 @@ class PSIKMLMapper(Component):
         
         for i in result:
             s = Sub(xml, "resource", document_id=str(i.document_id))
-            Sub(s, 'volcano_id').text = i.volcano_id
             Sub(s, 'start_datetime').text = (i.start_datetime).isoformat()
             Sub(s, 'end_datetime').text = (i.end_datetime).isoformat()
-            Sub(s, 'upperleft_latitude').text = str(i.upperleft_latitude)
-            Sub(s, 'upperleft_longitude').text = str(i.upperleft_longitude)
-            Sub(s, 'lowerright_latitude').text = str(i.lowerright_latitude)
-            Sub(s, 'lowerright_longitude').text = str(i.lowerright_longitude)
             Sub(s, 'url').text = 'local://' + i.local_path_kml
         return toString(xml)

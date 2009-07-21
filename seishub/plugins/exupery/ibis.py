@@ -74,12 +74,7 @@ class IBISQualityGeoTIFFMapper(Component):
         query = sql.text("""
             SELECT 
                 document_id, 
-                volcano_id, 
                 datetime, 
-                upperleft_latitude, 
-                upperleft_longitude, 
-                lowerright_latitude, 
-                lowerright_longitude, 
                 local_path_image_quality
             FROM "/exupery/ibis"
             WHERE local_path_image_quality IS NOT NULL
@@ -92,12 +87,7 @@ class IBISQualityGeoTIFFMapper(Component):
         
         for i in result:
             s = Sub(xml, "resource", document_id=str(i.document_id))
-            Sub(s, 'volcano_id').text = i.volcano_id
             Sub(s, 'datetime').text = (i.datetime).isoformat()
-            Sub(s, 'upperleft_latitude').text = str(i.upperleft_latitude)
-            Sub(s, 'upperleft_longitude').text = str(i.upperleft_longitude)
-            Sub(s, 'lowerright_latitude').text = str(i.lowerright_latitude)
-            Sub(s, 'lowerright_longitude').text = str(i.lowerright_longitude)
             Sub(s, 'url').text = 'local://' + i.local_path_image_quality
         return toString(xml)
 
@@ -120,12 +110,7 @@ class IBISLosDisplacementGeoTIFFMapper(Component):
         query = sql.text("""
             SELECT 
                 document_id, 
-                volcano_id, 
                 datetime, 
-                upperleft_latitude, 
-                upperleft_longitude, 
-                lowerright_latitude, 
-                lowerright_longitude, 
                 local_path_image_displacement
             FROM "/exupery/ibis"
             WHERE local_path_image_displacement IS NOT NULL
@@ -138,11 +123,6 @@ class IBISLosDisplacementGeoTIFFMapper(Component):
         
         for i in result:
             s = Sub(xml, "resource", document_id=str(i.document_id))
-            Sub(s, 'volcano_id').text = i.volcano_id
             Sub(s, 'datetime').text = (i.datetime).isoformat()
-            Sub(s, 'upperleft_latitude').text = str(i.upperleft_latitude)
-            Sub(s, 'upperleft_longitude').text = str(i.upperleft_longitude)
-            Sub(s, 'lowerright_latitude').text = str(i.lowerright_latitude)
-            Sub(s, 'lowerright_longitude').text = str(i.lowerright_longitude)
             Sub(s, 'url').text = 'local://' + i.local_path_image_displacement
         return toString(xml)
