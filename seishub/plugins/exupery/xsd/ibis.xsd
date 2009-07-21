@@ -144,6 +144,14 @@
                   </xs:sequence>
                 </xs:complexType>
               </xs:element>
+              <xs:element xmlns:xs="http://www.w3.org/2001/XMLSchema" maxOccurs="1" minOccurs="1" name="range_phase" >
+                <xs:complexType xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                  <xs:sequence xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                    <xs:element xmlns:xs="http://www.w3.org/2001/XMLSchema" maxOccurs="1" type="xs:float" minOccurs="0" name="minimum_value" />
+                    <xs:element xmlns:xs="http://www.w3.org/2001/XMLSchema" maxOccurs="1" type="xs:float" minOccurs="0" name="maximum_value" />
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
               <xs:element xmlns:xs="http://www.w3.org/2001/XMLSchema" maxOccurs="1" minOccurs="1" name="range_losdisplacement" >
                 <xs:complexType xmlns:xs="http://www.w3.org/2001/XMLSchema">
                   <xs:sequence xmlns:xs="http://www.w3.org/2001/XMLSchema">

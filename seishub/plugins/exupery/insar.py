@@ -52,6 +52,14 @@ class InSARResourceType(Component):
     registerIndex('local_path_image_amplitude', 
                   '/InSAR/files/file/local_path[../@id="amplitude_image"]', 
                   'text')
+    registerIndex('local_path_image_coh_absdphase', 
+                  '/InSAR/files/file/local_path[../@id="coh_absdphase_image"]', 
+                  'text')
+    registerIndex('local_path_image_coh_dphase', 
+                  '/InSAR/files/file/local_path[../@id="coh_dphase_image"]', 
+                  'text')
+    registerIndex('local_path_image_coh_phase', 
+                  '/InSAR/files/file/local_path[../@id="coh_phase_image"]', 'text')
 
 
 class _InSARGeoTIFFMapperBase(object):
