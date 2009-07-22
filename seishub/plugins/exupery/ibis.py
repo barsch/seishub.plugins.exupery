@@ -93,7 +93,7 @@ class _IBISGeoTIFFMapperBase(object):
             Sub(s, 'url').text = 'local://' + i[self.type]
         return toString(xml)
 
-class IBISQualityGeoTIFFMapper(Component):
+class IBISQualityGeoTIFFMapper(Component, _IBISGeoTIFFMapperBase):
     """
     Returns a list of filtered IBIS Quality GeoTiff files.
     """
@@ -101,7 +101,7 @@ class IBISQualityGeoTIFFMapper(Component):
     mapping_url = '/exupery/wp1/ibis/quality/geotiff'
     
 
-class IBISLosDisplacementGeoTIFFMapper(Component):
+class IBISLosDisplacementGeoTIFFMapper(Component, _IBISGeoTIFFMapperBase):
     """
     Returns a list of filtered IBIS LosDisplacement GeoTiff files.
     """
