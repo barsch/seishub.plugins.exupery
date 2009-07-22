@@ -25,6 +25,11 @@ METADATA_ALLOWED_VIEWS = {
     'gis_minidoas-station': 0
 }
 
+METADATA_EMPTY_XML = """
+  <metadata>
+  </metadata>
+"""
+
 # stations
 # input: discrete time stamp (start==end) 
 # data: time range with possible open end
@@ -131,9 +136,10 @@ class GISMetadataMapper(Component):
             type = 'metadata'
         )
         if not xslt or not len(xslt):
-            return "<metadata />"
-        xslt = xslt[0]
-        xmldoc = xslt.transform(data)
+            xmldoc = METADATA_EMPTY_XML
+        else:
+            xslt = xslt[0]
+            xmldoc = xslt.transform(data)
         # append resource a XML to metadata
         res_link = METADATA_RESOURCE_LINK % (self.env.getRestUrl(), str(res),
                                              res.name)
