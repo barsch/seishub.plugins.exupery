@@ -34,6 +34,8 @@ class IBISResourceType(Component):
     resourcetype_id = 'ibis'
     
     registerSchema('xsd' + os.sep + 'ibis.xsd', 'XMLSchema')
+    registerStylesheet('xslt' + os.sep + 'ibis_metadata.xslt', 
+        'metadata')
     
     registerIndex('project_id', '/GBSAR_IBIS/@project_id', 'text')
     registerIndex('volcano_id', '/GBSAR_IBIS/@volcano_id', 'text')
