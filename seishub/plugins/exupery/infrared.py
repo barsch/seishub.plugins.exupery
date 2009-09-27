@@ -149,5 +149,9 @@ class InfraredGeoTIFFMapper(Component):
             Sub(s, 'start_datetime').text = (i.start_datetime).isoformat()
             Sub(s, 'end_datetime').text = (i.end_datetime).isoformat()
             Sub(s, 'url').text = 'local://' + i.local_path_image
-            Sub(s, 'url16').text = 'local://' + i.local_path_image_16bit
+	    if i.local_path_image_16bit:
+	        path = 'local://' + i.local_path_image_16bit
+	    else:
+	        path = ''
+            Sub(s, 'url16').text = path
         return toString(xml)
