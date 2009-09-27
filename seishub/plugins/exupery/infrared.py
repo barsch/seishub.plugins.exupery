@@ -133,7 +133,8 @@ class InfraredGeoTIFFMapper(Component):
                document_id, 
                start_datetime, 
                end_datetime,
-               local_path_image
+               local_path_image,
+               local_path_image_16bit
            FROM "/exupery/infrared"
            WHERE local_path_image IS NOT NULL
            AND project_id = :pid
