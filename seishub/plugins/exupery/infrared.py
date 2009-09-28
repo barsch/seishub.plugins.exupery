@@ -129,7 +129,7 @@ class InfraredGeoTIFFMapper(Component):
         xml = Element("query")
         # build up and execute query
         query = sql.text("""
-           SELECT 
+           SELECT DISTINCT
                document_id, 
                start_datetime, 
                end_datetime,
