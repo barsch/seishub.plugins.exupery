@@ -23,6 +23,7 @@ from seishub.packages.interfaces import IResourceType, IMapper
 from seishub.util.xmlwrapper import toString
 from sqlalchemy import sql
 import os
+from obspy.core import UTCDateTime
 
 
 class IBISResourceType(Component):
@@ -37,6 +38,8 @@ class IBISResourceType(Component):
     registerSchema('xsd' + os.sep + 'ibis.xsd', 'XMLSchema')
     registerStylesheet('xslt' + os.sep + 'ibis_metadata.xslt', 
         'metadata')
+    registerStylesheet('xslt' + os.sep + 'ibis_displacement_metadata.xslt', 
+        'metadatadisplacement')
     
     registerIndex('project_id', '/GBSAR_IBIS/@project_id', 'text')
     registerIndex('volcano_id', '/GBSAR_IBIS/@volcano_id', 'text')
@@ -71,10 +74,20 @@ class _IBISGeoTIFFMapperBase(object):
     def process_GET(self, request):
         # parse input arguments
         pid = request.args0.get('project_id', '')
+	try:
+            start = UTCDateTime(request.args0.get('start_datetime')).isoformat()
+	    end = request.args0.get('end_datetime', False)
+	    if end:
+	        end = UTCDateTime(end).isoformat()
+	    else:
+	        end = UTCDateTime().isoformat()
+	except:
+	    start = False
+	    end = False
         # generate XML result
         xml = Element("query")
         # build up and execute query
-        query = sql.text("""
+	SQL = """
            SELECT 
                document_id, 
                start_datetime, 
@@ -83,9 +96,18 @@ class _IBISGeoTIFFMapperBase(object):
            FROM "/exupery/ibis"
            WHERE project_id = :pid 
            AND %s IS NOT NULL
-        """ % (self.type, self.type))
+	"""
+	if start:
+	   SQL += """
+	   AND start_datetime >= :start
+	   AND end_datetime < :end
+	   """
+        query = sql.text(SQL % (self.type, self.type))
         try:
-            result = self.env.db.query(query, pid=pid)
+	    if start:
+                 result = self.env.db.query(query, pid=pid, start=start, end=end)
+	    else:
+	         result = self.env.db.query(query, pid=pid)
         except:
             return toString(xml)
         
