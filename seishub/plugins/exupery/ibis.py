@@ -130,7 +130,6 @@ class _IBISGeoTIFFMapperBase(object):
         return toString(xml)
 
 
-
 class IBISQualityGeoTIFFMapper(Component, _IBISGeoTIFFMapperBase):
     """
     Returns a list of filtered IBIS Quality GeoTiff files.

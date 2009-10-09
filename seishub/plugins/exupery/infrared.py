@@ -21,7 +21,7 @@ from seishub.db import util
 from seishub.packages.installer import registerSchema, registerIndex
 from seishub.packages.interfaces import IResourceType, ISQLView, IMapper
 from seishub.util.xmlwrapper import toString
-from sqlalchemy import sql
+from sqlalchemy import sql, Table
 import os
 
 
@@ -123,35 +123,52 @@ class InfraredGeoTIFFMapper(Component):
     mapping_url = '/exupery/wp2/infrared/geotiff'
 
     def process_GET(self, request):
-        # parse input arguments
-        pid = request.args0.get('project_id', '')
+        tab = Table('/exupery/infrared', request.env.db.metadata,
+                    autoload=True)
+        # fetch arguments
+        try:
+            limit = int(request.args0.get('limit'))
+            offset = int(request.args0.get('offset', 0))
+        except:
+            limit = None
+            offset = 0
+        oncl = sql.and_(1 == 1)
+        # build up query
+        columns = [tab.c['document_id'], tab.c['project_id'],
+                   tab.c['start_datetime'], tab.c['end_datetime'],
+                   tab.c['local_path_image'], tab.c['local_path_image_16bit']]
+        query = sql.select(columns, oncl, limit=limit, distinct=True,
+                           offset=offset, order_by=tab.c['start_datetime'])
+        query = query.where(tab.c['local_path_image'] != None)
+        # process arguments
+        try:
+            temp = request.args0.get('project_id', '')
+            query = query.where(tab.c['project_id'] == temp)
+        except:
+            pass
         # generate XML result
         xml = Element("query")
-        # build up and execute query
-        query = sql.text("""
-           SELECT DISTINCT
-               document_id, 
-               start_datetime, 
-               end_datetime,
-               local_path_image,
-               local_path_image_16bit
-           FROM "/exupery/infrared"
-           WHERE local_path_image IS NOT NULL
-           AND project_id = :pid
-        """)
+        # execute query
         try:
-            result = self.env.db.query(query, pid=pid)
+            results = request.env.db.query(query)
         except:
             return toString(xml)
-
-        for i in result:
+        for i in results:
             s = Sub(xml, "resource", document_id=str(i.document_id))
-            Sub(s, 'start_datetime').text = (i.start_datetime).isoformat()
-            Sub(s, 'end_datetime').text = (i.end_datetime).isoformat()
+            try:
+                temp = i.start_datetime.isoformat()
+            except:
+                temp = ''
+            Sub(s, 'start_datetime').text = temp
+            try:
+                temp = i.end_datetime.isoformat()
+            except:
+                temp = ''
+            Sub(s, 'end_datetime').text = temp
             Sub(s, 'url').text = 'local://' + i.local_path_image
-	    if i.local_path_image_16bit:
-	        path = 'local://' + i.local_path_image_16bit
-	    else:
-	        path = ''
+            if i.local_path_image_16bit:
+                path = 'local://' + i.local_path_image_16bit
+            else:
+                path = ''
             Sub(s, 'url16').text = path
         return toString(xml)
