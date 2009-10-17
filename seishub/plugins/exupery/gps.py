@@ -319,13 +319,7 @@ class GPSTimeSeriesMapper2(Component):
             offset = 0
         oncl = sql.and_(1 == 1)
         # build up query
-        columns = [tab.c['station_id'],
-                   tab.c['start_datetime'], tab.c['end_datetime'],
-                   tab.c['abs_conf_azimuth_a'], tab.c['abs_conf_ellipse_b'],
-                   tab.c['abs_conf_ellipse_a'], tab.c['abs_height_conf'],
-                   tab.c['abs_height'], tab.c['abs_longitude'],
-                   tab.c['abs_latitude']]
-        query = sql.select(columns, oncl, limit=limit, distinct=True,
+        query = sql.select([tab], oncl, limit=limit, distinct=True,
                            offset=offset, order_by=tab.c['start_datetime'])
         # process arguments
         try:
@@ -364,9 +358,9 @@ class GPSTimeSeriesMapper2(Component):
         catalog = self.env.catalog.index_catalog
         xmlindex_list = catalog.getIndexes('exupery', 'gps-data')
         filter = ['station_id', 'start_datetime', 'end_datetime',
-                  'abs_conf_ellipse_b', 'abs_conf_ellipse_a',
-                  'abs_height_conf', 'abs_height', 'abs_longitude',
-                  'abs_latitude']
+                  'abs_conf_azimuth_a', 'abs_conf_ellipse_b',
+                  'abs_conf_ellipse_a', 'abs_height_conf', 'abs_height',
+                  'abs_longitude', 'abs_latitude']
         xmlindex_list = [x for x in xmlindex_list if x.label in filter]
         if not xmlindex_list:
             return
