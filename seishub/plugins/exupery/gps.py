@@ -299,14 +299,16 @@ class GPSTimeSeriesMapper(Component):
 class GPSTimeSeriesMapper2(Component):
     """
     Returns a filtered list of GPS data for displaying as time series.
+    Creates also a second SQL View for GPS Data components.
     """
-    implements(IMapper)
+    implements(IMapper, ISQLView)
 
     package_id = 'exupery'
     mapping_url = '/exupery/wp1/gps/data/timeseries2'
+    view_id = 'gis_gps-data2'
 
     def process_GET(self, request):
-        tab = Table('/exupery/gps-data', request.env.db.metadata,
+        tab = Table('/exupery/gps-data2', request.env.db.metadata,
                     autoload=True)
         # fetch arguments
         try:
@@ -317,28 +319,15 @@ class GPSTimeSeriesMapper2(Component):
             offset = 0
         oncl = sql.and_(1 == 1)
         # build up query
-        columns = [tab.c['document_id'], tab.c['project_id'],
-                   tab.c['station_id'],
+        columns = [tab.c['station_id'],
                    tab.c['start_datetime'], tab.c['end_datetime'],
-                   tab.c['package_id'], tab.c['resourcetype_id'],
-                   tab.c['resource_name'], tab.c['rel_conf_azimuth_a'],
-                   tab.c['rel_conf_ellipse_b'], tab.c['rel_conf_ellipse_a'],
-                   tab.c['rel_height_conf'], tab.c['rel_height'],
-                   tab.c['rel_longitude'], tab.c['rel_latitude'],
                    tab.c['abs_conf_azimuth_a'], tab.c['abs_conf_ellipse_b'],
                    tab.c['abs_conf_ellipse_a'], tab.c['abs_height_conf'],
                    tab.c['abs_height'], tab.c['abs_longitude'],
-                   tab.c['abs_latitude'], tab.c['epoch0_height'],
-                   tab.c['epoch0_longitude'], tab.c['epoch0_latitude'],
-                   tab.c['volcano_id']]
+                   tab.c['abs_latitude']]
         query = sql.select(columns, oncl, limit=limit, distinct=True,
                            offset=offset, order_by=tab.c['start_datetime'])
         # process arguments
-        try:
-            temp = request.args0.get('project_id', '')
-            query = query.where(tab.c['project_id'] == temp)
-        except:
-            pass
         try:
             temp = request.args0.get('station_id', '')
             query = query.where(tab.c['station_id'] == temp)
@@ -369,3 +358,19 @@ class GPSTimeSeriesMapper2(Component):
                 else:
                     Sub(s, id).text = str(value)
         return toString(xml)
+
+    def createView(self):
+        # filter indexes
+        catalog = self.env.catalog.index_catalog
+        xmlindex_list = catalog.getIndexes('exupery', 'gps-data')
+        filter = ['station_id', 'start_datetime', 'end_datetime',
+                  'abs_conf_ellipse_b', 'abs_conf_ellipse_a',
+                  'abs_height_conf', 'abs_height', 'abs_longitude',
+                  'abs_latitude']
+        xmlindex_list = [x for x in xmlindex_list if x.label in filter]
+        if not xmlindex_list:
+            return
+        # build up query
+        query, joins = catalog._createIndexView(xmlindex_list, compact=True)
+        query = query.select_from(joins)
+        return util.compileStatement(query)
