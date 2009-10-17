@@ -305,10 +305,10 @@ class GPSTimeSeriesMapper2(Component):
 
     package_id = 'exupery'
     mapping_url = '/exupery/wp1/gps/data/timeseries2'
-    view_id = 'gis_gps-data2'
+    view_id = 'gis_gps-absdata'
 
     def process_GET(self, request):
-        tab = Table('gis_gps-data2', request.env.db.metadata,
+        tab = Table('gis_gps-absdata', request.env.db.metadata,
                     autoload=True)
         # fetch arguments
         try:
