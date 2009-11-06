@@ -101,7 +101,6 @@ class InfraredHotspotSQLView(Component):
             return
         # build up query
         query, joins = catalog._createIndexView(xmlindex_list, compact=True)
-
         options = [
             sql.func.GeomFromText(
                 sql.text("'POINT(' || longitude_hotspot.keyval || ' ' || " + \
@@ -110,6 +109,8 @@ class InfraredHotspotSQLView(Component):
         for option in options:
             query.append_column(option)
         query = query.select_from(joins)
+        # don't show rows without hotspots
+        query = query.where(sql.column('latitude_hotspot') != None)
         return util.compileStatement(query)
 
 
