@@ -13,3 +13,4 @@ from psi import *
 from mogi import *
 from minidoas import *
 from seismic import *
+from modis import *
