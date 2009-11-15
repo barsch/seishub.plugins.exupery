@@ -105,13 +105,15 @@ class GISMetadataMapper(Component):
         except:
             return "<metadata />"
         try:
-            args['start'] = UTCDateTime(request.args0.get('start_datetime'))
+            temp = request.args0.get('start_datetime')
+            args['start'] = str(UTCDateTime(temp))
         except:
-            args['start'] = UTCDateTime()
+            args['start'] = str(UTCDateTime())
         try:
-            args['end'] = UTCDateTime(request.args0.get('end_datetime'))
+            temp = request.args0.get('end_datetime')
+            args['end'] = str(UTCDateTime(temp))
         except:
-            args['end'] = UTCDateTime()
+            args['end'] = str(UTCDateTime())
         if args['end'] == args['start']:
             args['now'] = args['start']
         if not document_id:
