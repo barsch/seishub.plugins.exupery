@@ -227,17 +227,12 @@ class GPSDisplacementMapper(Component):
     package_id = 'exupery'
     mapping_url = '/exupery/wp1/gps/data/displacement'
 
-
     def process_GET(self, request):
         # parse input arguments
         try:
-            document_id = int(request.args0.get('document_id', 0))
+            document_id = int(request.args0.get('document_id'))
         except:
-            return ""
-
-        if not document_id:
             return "<query />"
-
         # fetch document from catalog
         res = self.env.catalog.getResource(document_id=document_id)
         data = res.document.data
