@@ -3,7 +3,7 @@
 Exupery - GIS resources.
 """
 
-from obspy.core.utcdatetime import UTCDateTime
+from obspy.core import UTCDateTime
 from seishub.core import Component, implements
 from seishub.packages.installer import registerIndex
 from seishub.packages.interfaces import IMapper, IResourceType
@@ -111,7 +111,6 @@ class GISMetadataMapper(Component):
             args['end'] = UTCDateTime()
         if args['end'] == args['start']:
             args['now'] = args['start']
-
         if not document_id:
             # only known view_ids are allowed
             if view_id not in METADATA_ALLOWED_VIEWS.keys():
