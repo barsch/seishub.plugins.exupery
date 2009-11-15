@@ -68,7 +68,7 @@ class PSIKMLMapper(Component):
         query = sql.select(columns, oncl, limit=limit, distinct=True,
                            offset=offset, order_by=tab.c['start_datetime'])
         # only with non empty local_path_kml
-        query = query.where()
+        query = query.where(tab.c['local_path_kml'] != None)
         # process arguments
         try:
             temp = request.args0.get('project_id')
