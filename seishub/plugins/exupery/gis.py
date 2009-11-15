@@ -86,56 +86,18 @@ class GISMetadataMapper(Component):
     package_id = 'exupery'
     mapping_url = '/exupery/gis/metadata'
 
-
     def process_GET(self, request):
         # parse input arguments
-        args = {}
+        xslt_type = request.args0.get('xslt', '')
+        if xslt_type:
+            xslt_type = '.' + xslt_type
         try:
-            document_id = int(request.args0.get('document_id', 0))
-            xslt_type = request.args0.get('xslt', '')
-            if xslt_type:
-                xslt_type = '.' + xslt_type
-            # process further arguments if no document_id is given
-            if not document_id:
-                #project_id = request.args0.get('project_id', '')
-                args['x'] = float(request.args0.get('longitude', 0))
-                args['y'] = float(request.args0.get('latitude', 0))
-                args['d'] = float(request.args0.get('delta', 0))
-                view_id = request.args0.get('view', 'gis_seismic-station')
+            document_id = int(request.args0.get('document_id'))
         except:
-            return "<metadata />"
-        try:
-            temp = request.args0.get('start_datetime')
-            args['start'] = str(UTCDateTime(temp))
-        except:
-            args['start'] = str(UTCDateTime())
-        try:
-            temp = request.args0.get('end_datetime')
-            args['end'] = str(UTCDateTime(temp))
-        except:
-            args['end'] = str(UTCDateTime())
-        if args['end'] == args['start']:
-            args['now'] = args['start']
-        if not document_id:
-            # only known view_ids are allowed
-            if view_id not in METADATA_ALLOWED_VIEWS.keys():
-                return "<metadata />"
-            type = METADATA_ALLOWED_VIEWS.get(view_id)
-            # build up and execute query
-            if type == 0:
-                query = sql.text(SQL_QUERY_0 % view_id)
-            else:
-                query = sql.text(SQL_QUERY_1 % view_id)
             try:
-                result = self.env.db.query(query, **args).fetchone()
-                if not result or len(result) != 1:
-                    return "<metadata />"
+                document_id = self._getDocumentId(request)
             except:
-                # nothing found
                 return "<metadata />"
-            # now we got a document ID
-            document_id = result[0]
-
         # fetch document from catalog
         res = self.env.catalog.getResource(document_id=document_id)
         data = res.document.data
@@ -156,6 +118,43 @@ class GISMetadataMapper(Component):
                                              res.name)
         xmldoc = xmldoc.replace('</metadata>', str(res_link))
         return str(xmldoc)
+
+    def _getDocumentId(self, request):
+        # process further arguments if no document_id is given
+        args = {}
+        args['x'] = float(request.args0.get('longitude', 0))
+        args['y'] = float(request.args0.get('latitude', 0))
+        args['d'] = float(request.args0.get('delta', 0))
+        view_id = request.args0.get('view', 'gis_seismic-station')
+        try:
+            temp = request.args0.get('start_datetime')
+            args['start'] = str(UTCDateTime(temp))
+        except:
+            args['start'] = str(UTCDateTime())
+        try:
+            temp = request.args0.get('end_datetime')
+            args['end'] = str(UTCDateTime(temp))
+        except:
+            args['end'] = str(UTCDateTime())
+        if args['end'] == args['start']:
+            args['now'] = args['start']
+        # only known view_ids are allowed
+        if view_id not in METADATA_ALLOWED_VIEWS.keys():
+            raise
+        type = METADATA_ALLOWED_VIEWS.get(view_id)
+        # build up and execute query
+        if type == 0:
+            query = sql.text(SQL_QUERY_0 % view_id)
+        else:
+            query = sql.text(SQL_QUERY_1 % view_id)
+        try:
+            result = self.env.db.query(query, **args).fetchone()
+        except:
+            raise
+        if not result or len(result) != 1:
+            raise
+        # now we got a document ID
+        return int(result[0])
 
 
 class GISKMLMapper(Component):
