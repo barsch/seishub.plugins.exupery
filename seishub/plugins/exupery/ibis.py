@@ -93,18 +93,23 @@ class _IBISGeoTIFFMapperBase(object):
                            offset=offset, order_by=tab.c['start_datetime'])
         # process arguments
         try:
-            temp = request.args0.get('project_id', '')
-            query = query.where(tab.c['project_id'] == temp)
+            temp = request.args0.get('project_id')
+            if temp:
+                query = query.where(tab.c['project_id'] == temp)
         except:
             pass
         try:
-            temp = UTCDateTime(request.args0.get('start_datetime'))
-            query = query.where(tab.c['start_datetime'] >= temp.datetime)
+            temp = request.args0.get('start_datetime')
+            if temp:
+                temp = UTCDateTime(temp)
+                query = query.where(tab.c['start_datetime'] >= temp.datetime)
         except:
             pass
         try:
-            temp = UTCDateTime(request.args0.get('end_datetime'))
-            query = query.where(tab.c['start_datetime'] < temp.datetime)
+            temp = request.args0.get('end_datetime')
+            if temp:
+                temp = UTCDateTime(temp)
+                query = query.where(tab.c['start_datetime'] < temp.datetime)
         except:
             pass
         # generate XML result

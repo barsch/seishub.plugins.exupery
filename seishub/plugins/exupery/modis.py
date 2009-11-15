@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Exupery - WP? - Modis resources.
+Exupery - WP2 - Modis resources.
 
 Contact:
  * Cordelia Maerker (Cordelia.Maerker@dlr.de)
@@ -9,12 +9,10 @@ Contact:
 from lxml.etree import Element, SubElement as Sub
 from obspy.core import UTCDateTime
 from seishub.core import Component, implements
-from seishub.packages.installer import registerIndex, registerSchema, \
-    registerStylesheet
+from seishub.packages.installer import registerIndex
 from seishub.packages.interfaces import IResourceType, IMapper
 from seishub.util.xmlwrapper import toString
 from sqlalchemy import Table, sql
-import os
 
 
 class ModisResourceType(Component):
@@ -38,9 +36,11 @@ class ModisResourceType(Component):
     registerIndex('lowerright_longitude',
         '/Modis/range_lowerright/longitude/value', 'float')
     registerIndex('local_path_image_aqua',
-        '/Modis/files/file/local_path[../@id="MODIS Aqua True Color image 250m"]', 'text')
+        '/Modis/files/file/local_path[../@id="MODIS Aqua True Color image 250m"]',
+        'text')
     registerIndex('local_path_image_terra',
-        '/Modis/files/file/local_path[../@id="MODIS Terra True Color image 250m"]', 'text')
+        '/Modis/files/file/local_path[../@id="MODIS Terra True Color image 250m"]',
+        'text')
 
 
 class _ModisGeoTIFFMapperBase(object):
@@ -60,31 +60,35 @@ class _ModisGeoTIFFMapperBase(object):
             offset = 0
         oncl = sql.and_(1 == 1)
         # build up query
-        columns = [tab.c['document_id'], tab.c['project_id'], tab.c['volcano_id'],
-                   tab.c['datetime'],  tab.c[self.type_id]]
+        columns = [tab.c['document_id'], tab.c['project_id'],
+                   tab.c['volcano_id'], tab.c['datetime'], tab.c[self.type_id]]
         query = sql.select(columns, oncl, limit=limit, distinct=True,
                            offset=offset, order_by=tab.c['datetime'])
         # process arguments
         try:
             temp = request.args0.get('project_id')
-	    if temp:
-	        query = query.where(tab.c['project_id'] == temp)
+            if temp:
+                query = query.where(tab.c['project_id'] == temp)
         except:
             pass
         try:
             temp = request.args0.get('volcano_id')
             if temp:
-	        query = query.where(tab.c['volcano_id'] == temp)
+                query = query.where(tab.c['volcano_id'] == temp)
         except:
             pass
         try:
-            temp = UTCDateTime(request.args0.get('start_datetime'))
-            query = query.where(tab.c['datetime'] >= temp.datetime)
+            temp = request.args0.get('start_datetime')
+            if temp:
+                temp = UTCDateTime(temp)
+                query = query.where(tab.c['datetime'] >= temp.datetime)
         except:
             pass
         try:
-            temp = UTCDateTime(request.args0.get('end_datetime'))
-            query = query.where(tab.c['datetime'] <= temp.datetime)
+            temp = request.args0.get('end_datetime')
+            if temp:
+                temp = UTCDateTime(temp)
+                query = query.where(tab.c['datetime'] <= temp.datetime)
         except:
             pass
         # generate XML result
