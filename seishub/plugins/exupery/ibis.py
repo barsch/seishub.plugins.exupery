@@ -109,7 +109,7 @@ class _IBISGeoTIFFMapperBase(object):
             temp = request.args0.get('end_datetime')
             if temp:
                 temp = UTCDateTime(temp)
-                query = query.where(tab.c['start_datetime'] < temp.datetime)
+                query = query.where(tab.c['end_datetime'] < temp.datetime)
         except:
             pass
         # generate XML result
