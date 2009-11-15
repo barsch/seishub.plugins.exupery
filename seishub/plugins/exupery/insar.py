@@ -136,7 +136,7 @@ class InSARAbsDPhaseGeoTIFFMapper(Component, _InSARGeoTIFFMapperBase):
     """
     Returns a list of filtered InSAR AbsDPhase GeoTiff files.
     """
-    type = 'local_path_image_absdphase'
+    type_id = 'local_path_image_absdphase'
     mapping_url = '/exupery/wp2/insar/absdphase/geotiff'
 
 
@@ -144,7 +144,7 @@ class InSARDPhaseGeoTIFFMapper(Component, _InSARGeoTIFFMapperBase):
     """
     Returns a list of filtered InSAR DPhase GeoTiff files.
     """
-    type = 'local_path_image_dphase'
+    type_id = 'local_path_image_dphase'
     mapping_url = '/exupery/wp2/insar/dphase/geotiff'
 
 
@@ -152,7 +152,7 @@ class InSARPhaseGeoTIFFMapper(Component, _InSARGeoTIFFMapperBase):
     """
     Returns a list of filtered InSAR Phase GeoTiff files.
     """
-    type = 'local_path_image_phase'
+    type_id = 'local_path_image_phase'
     mapping_url = '/exupery/wp2/insar/phase/geotiff'
 
 
@@ -160,7 +160,7 @@ class InSARCoherenceGeoTIFFMapper(Component, _InSARGeoTIFFMapperBase):
     """
     Returns a list of filtered InSAR Coherence GeoTiff files.
     """
-    type = 'local_path_image_coherence'
+    type_id = 'local_path_image_coherence'
     mapping_url = '/exupery/wp2/insar/coherence/geotiff'
 
 
@@ -168,7 +168,7 @@ class InSARAmplitudeGeoTIFFMapper(Component, _InSARGeoTIFFMapperBase):
     """
     Returns a list of filtered InSAR Amplitude GeoTiff files.
     """
-    type = 'local_path_image_amplitude'
+    type_id = 'local_path_image_amplitude'
     mapping_url = '/exupery/wp2/insar/amplitude/geotiff'
 
 
@@ -176,7 +176,7 @@ class InSARCohAbsDPhaseGeoTIFFMapper(Component, _InSARGeoTIFFMapperBase):
     """
     Returns a list of filtered InSAR AbsDPhase GeoTiff files.
     """
-    type = 'local_path_image_coh_absdphase'
+    type_id = 'local_path_image_coh_absdphase'
     mapping_url = '/exupery/wp2/insar/cohabsdphase/geotiff'
 
 
@@ -184,7 +184,7 @@ class InSARCohDPhaseGeoTIFFMapper(Component, _InSARGeoTIFFMapperBase):
     """
     Returns a list of filtered InSAR DPhase GeoTiff files.
     """
-    type = 'local_path_image_coh_dphase'
+    type_id = 'local_path_image_coh_dphase'
     mapping_url = '/exupery/wp2/insar/cohdphase/geotiff'
 
 
@@ -192,5 +192,5 @@ class InSARCohPhaseGeoTIFFMapper(Component, _InSARGeoTIFFMapperBase):
     """
     Returns a list of filtered InSAR Phase GeoTiff files.
     """
-    type = 'local_path_image_coh_phase'
+    type_id = 'local_path_image_coh_phase'
     mapping_url = '/exupery/wp2/insar/cohphase/geotiff'
