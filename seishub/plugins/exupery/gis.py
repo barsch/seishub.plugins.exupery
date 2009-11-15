@@ -3,6 +3,7 @@
 Exupery - GIS resources.
 """
 
+from obspy.core.utcdatetime import UTCDateTime
 from seishub.core import Component, implements
 from seishub.packages.installer import registerIndex
 from seishub.packages.interfaces import IMapper, IResourceType
@@ -18,8 +19,8 @@ METADATA_RESOURCE_LINK = """
 
 METADATA_ALLOWED_VIEWS = {
     'gis_seismic-station': 0,
-    'gis_gps-data': 0, 
-    'gis_gps-station': 0, 
+    'gis_gps-data': 0,
+    'gis_gps-station': 0,
     'gis_infrared-hotspot': 0,
     'gis_seismic-event': 1,
     'gis_minidoas-station': 0
@@ -67,10 +68,10 @@ class GISSessionResourceType(Component):
     GIS Session resource type.
     """
     implements(IResourceType)
-    
+
     package_id = 'exupery'
     resourcetype_id = 'gis-session'
-    
+
     registerIndex('global', '/save/@global', 'boolean')
     registerIndex('project_id', '/save/@project_id', 'text')
     registerIndex('user_id', '/save/@user', 'text')
@@ -81,59 +82,65 @@ class GISMetadataMapper(Component):
     Returns GIS Metadata for various GIS layers.
     """
     implements(IMapper)
-    
+
     package_id = 'exupery'
     mapping_url = '/exupery/gis/metadata'
-    
-    
+
+
     def process_GET(self, request):
         # parse input arguments
+        args = {}
         try:
             document_id = int(request.args0.get('document_id', 0))
             # process further arguments if no document_id is given
             if not document_id:
-                args = {}
                 #project_id = request.args0.get('project_id', '')
                 args['x'] = float(request.args0.get('longitude', 0))
                 args['y'] = float(request.args0.get('latitude', 0))
                 args['d'] = float(request.args0.get('delta', 0))
                 view_id = request.args0.get('view', 'gis_seismic-station')
-                args['start'] = request.args0.get('start_datetime', 'NOW()')
-                args['end'] = request.args0.get('end_datetime', 'NOW()')
-                if args['end']==args['start']:
-                    args['now'] = args['start']
         except:
-            return ""
-        
+            return "<metadata />"
+        try:
+            args['start'] = UTCDateTime(request.args0.get('start_datetime'))
+        except:
+            args['start'] = UTCDateTime()
+        try:
+            args['end'] = UTCDateTime(request.args0.get('end_datetime'))
+        except:
+            args['end'] = UTCDateTime()
+        if args['end'] == args['start']:
+            args['now'] = args['start']
+
         if not document_id:
             # only known view_ids are allowed
             if view_id not in METADATA_ALLOWED_VIEWS.keys():
                 return "<metadata />"
             type = METADATA_ALLOWED_VIEWS.get(view_id)
             # build up and execute query
-            if type==0:
+            if type == 0:
                 query = sql.text(SQL_QUERY_0 % view_id)
             else:
                 query = sql.text(SQL_QUERY_1 % view_id)
             try:
                 result = self.env.db.query(query, **args).fetchone()
-                if not result or len(result)!=1:
+                if not result or len(result) != 1:
                     return "<metadata />"
             except:
                 # nothing found
                 return "<metadata />"
             # now we got a document ID
-            document_id=result[0]
-        
+            document_id = result[0]
+
         # fetch document from catalog
         res = self.env.catalog.getResource(document_id=document_id)
         data = res.document.data
         # fetch a XSLT document object
         reg = request.env.registry
         xslt = reg.stylesheets.get(
-            package_id = res.package.package_id,
-            resourcetype_id = res.resourcetype.resourcetype_id,
-            type = 'metadata'
+            package_id=res.package.package_id,
+            resourcetype_id=res.resourcetype.resourcetype_id,
+            type='metadata'
         )
         if not xslt or not len(xslt):
             xmldoc = METADATA_EMPTY_XML
@@ -152,30 +159,30 @@ class GISKMLMapper(Component):
     Returns a KML document from a given document_id.
     """
     implements(IMapper)
-    
+
     package_id = 'exupery'
     mapping_url = '/exupery/gis/kml'
-    
-    
+
+
     def process_GET(self, request):
         # parse input arguments
         try:
             document_id = int(request.args0.get('document_id', 0))
         except:
             return ""
-        
+
         if not document_id:
             return "<kml />"
-        
+
         # fetch document from catalog
         res = self.env.catalog.getResource(document_id=document_id)
         data = res.document.data
         # fetch a XSLT document object
         reg = request.env.registry
         xslt = reg.stylesheets.get(
-            package_id = res.package.package_id,
-            resourcetype_id = res.resourcetype.resourcetype_id,
-            type = 'kml'
+            package_id=res.package.package_id,
+            resourcetype_id=res.resourcetype.resourcetype_id,
+            type='kml'
         )
         if not xslt or not len(xslt):
             return "<kml />"
@@ -189,27 +196,27 @@ class GISSessionMapper(Component):
     Returns a list of current GIS Session objects.
     """
     implements(IMapper)
-    
+
     package_id = 'exupery'
     mapping_url = '/exupery/gis/session'
-    
+
     def process_GET(self, request):
         # generate a plain text file
         request.setHeader('content-type', 'text/plain; charset=UTF-8')
-        
+
         # parse input arguments
         uid = request.args0.get('user', '')
         gid = request.args0.get('global', 'true')
         pid = request.args0.get('project_id', '')
-        
-        if gid=='true':
+
+        if gid == 'true':
             gid = True
             uid = ""
         else:
             gid = False
             if not uid:
                 return ""
-        
+
         # build up query
         SQL_QUERY = """
             SELECT document_id 
@@ -222,11 +229,11 @@ class GISSessionMapper(Component):
         query = sql.text(SQL_QUERY)
         # execute query
         try:
-            result = self.env.db.query(query, gid=gid, pid=pid, 
+            result = self.env.db.query(query, gid=gid, pid=pid,
                                        uid=uid).fetchall()
         except:
             return ""
-        
+
         # format output
         out = ''
         for res in result:
@@ -234,7 +241,7 @@ class GISSessionMapper(Component):
             data = res.document.data
             # get only save tag
             data = data.split('>', 1)[0]
-            out+=data + ' />\n'
+            out += data + ' />\n'
         return out
 
 
@@ -243,14 +250,14 @@ class GISUserAuthMapper(Component):
     Checks if given user and encoded password are correct.
     """
     implements(IMapper)
-    
+
     package_id = 'exupery'
     mapping_url = '/exupery/gis/auth'
-    
+
     def process_GET(self, request):
         # generate a plain text file
         request.setHeader('content-type', 'text/plain; charset=UTF-8')
-        
+
         # process args
         user = request.args0.get('user', '')
         hash = request.args0.get('hash', '')
