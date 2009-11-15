@@ -39,7 +39,7 @@ class IBISResourceType(Component):
     registerStylesheet('xslt' + os.sep + 'ibis_metadata.xslt',
         'metadata')
     registerStylesheet('xslt' + os.sep + 'ibis_displacement_metadata.xslt',
-        'metadatadisplacement')
+        'metadata.displacement')
 
     registerIndex('project_id', '/GBSAR_IBIS/@project_id', 'text')
     registerIndex('volcano_id', '/GBSAR_IBIS/@volcano_id', 'text')

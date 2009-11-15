@@ -93,6 +93,8 @@ class GISMetadataMapper(Component):
         try:
             document_id = int(request.args0.get('document_id', 0))
             xslt_type = request.args0.get('xslt', '')
+            if xslt_type:
+                xslt_type = '.' + xslt_type
             # process further arguments if no document_id is given
             if not document_id:
                 #project_id = request.args0.get('project_id', '')
