@@ -92,6 +92,7 @@ class GISMetadataMapper(Component):
         args = {}
         try:
             document_id = int(request.args0.get('document_id', 0))
+            xslt_type = request.args0.get('xslt', '')
             # process further arguments if no document_id is given
             if not document_id:
                 #project_id = request.args0.get('project_id', '')
@@ -139,7 +140,7 @@ class GISMetadataMapper(Component):
         xslt = reg.stylesheets.get(
             package_id=res.package.package_id,
             resourcetype_id=res.resourcetype.resourcetype_id,
-            type='metadata'
+            type='metadata' + xslt_type
         )
         if not xslt or not len(xslt):
             xmldoc = METADATA_EMPTY_XML
