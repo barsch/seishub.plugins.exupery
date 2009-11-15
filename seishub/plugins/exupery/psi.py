@@ -66,7 +66,7 @@ class PSIKMLMapper(Component):
                    tab.c['volcano_id'], tab.c['start_datetime'],
                    tab.c['end_datetime'], tab.c['local_path_kml']]
         query = sql.select(columns, oncl, limit=limit, distinct=True,
-                           offset=offset, order_by=tab.c['datetime'])
+                           offset=offset, order_by=tab.c['start_datetime'])
         # only with non empty local_path_kml
         query = query.where()
         # process arguments
