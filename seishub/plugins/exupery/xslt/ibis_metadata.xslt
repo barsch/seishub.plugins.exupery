@@ -8,14 +8,16 @@
       <item title="Date/Time Master">
         <text>
           <xsl:attribute name="text">
-            <xsl:value-of select="image_information/master_image/start_time/value" />
+            <xsl:value-of
+              select="image_information/master_image/start_datetime/value" />
           </xsl:attribute>
         </text>
       </item>
       <item title="Date/Time Slave">
         <text>
           <xsl:attribute name="text">
-            <xsl:value-of select="image_information/slave_image/start_time/value" />
+            <xsl:value-of
+              select="image_information/slave_image/start_datetime/value" />
           </xsl:attribute>
         </text>
       </item>
