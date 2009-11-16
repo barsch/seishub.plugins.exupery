@@ -4,8 +4,6 @@ Exupery - WP3 - Seismic resources.
 
 Contact:
  * 
-
-URL to external program to display time series
 """
 
 from lxml.etree import Element, SubElement as Sub
@@ -31,8 +29,9 @@ class SeismicStationSQLView(Component):
         catalog = self.env.catalog.index_catalog
         xmlindex_list = catalog.getIndexes('seismology', 'station')
 
-        filter = ['network_id', 'location_id', 'station_id', 'latitude',
-                  'longitude', 'start_datetime', 'end_datetime', 'quality']
+        filter = ['network_id', 'station_id', 'location_id', 'channel_id',
+                  'latitude', 'longitude', 'start_datetime', 'end_datetime',
+                  'quality']
         xmlindex_list = [x for x in xmlindex_list if x.label in filter]
         if not xmlindex_list:
             return
@@ -73,10 +72,10 @@ class SeismicStationActivitySQLView(Component):
         query, joins = catalog._createIndexView(xmlindex_list, compact=True)
 
         options = [
-            sql.functions.max(miniseed_tab.c.end_datetime).label("latest_activity"),
+            sql.functions.max(miniseed_tab.c['end_datetime']).label("latest_activity"),
             # XXX: not UTC!!!!
-            (sql.func.now() - sql.functions.max(miniseed_tab.c.end_datetime)).label("latency"),
-	    (sql.literal_column("end_datetime.keyval") == None).label("active"),
+            (sql.func.now() - sql.functions.max(miniseed_tab.c['end_datetime'])).label("latency"),
+            (sql.literal_column("end_datetime.keyval") == None).label("active"),
             sql.func.random().label("random"),
             sql.func.GeomFromText(
                 sql.text("'POINT(' || longitude.keyval || ' ' || " + \
@@ -102,7 +101,7 @@ class SeismicStationActivitySQLView(Component):
 
         joins = joins.join(miniseed_tab, onclause=oncl)
         query = query.select_from(joins).group_by(
-            document_tab.c.id,
+            document_tab.c['id'],
             sql.literal_column("station_id.keyval"),
             sql.literal_column("channel_id.keyval"),
             sql.literal_column("network_id.keyval"),
@@ -159,20 +158,20 @@ class SeismicStationActivitySQLView(Component):
 #            miniseed_tab.c['end_datetime'] <= sql.literal_column("end_datetime.keyval"),
 #            sql.literal_column("end_datetime.keyval") == None
 #            ))
-
-
-        joins = joins.join(miniseed_tab, onclause=oncl)
-        query = query.select_from(joins).group_by(
-            document_tab.c.id,
-            sql.literal_column("station_id.keyval"),
-            sql.literal_column("channel_id.keyval"),
-            sql.literal_column("network_id.keyval"),
-            sql.literal_column("location_id.keyval"),
-            sql.literal_column("latitude.keyval"),
-            sql.literal_column("longitude.keyval"),
-            sql.literal_column("start_datetime.keyval"),
-            sql.literal_column("end_datetime.keyval"))
-        return util.compileStatement(query)
+#
+#
+#        joins = joins.join(miniseed_tab, onclause=oncl)
+#        query = query.select_from(joins).group_by(
+#            document_tab.c.id,
+#            sql.literal_column("station_id.keyval"),
+#            sql.literal_column("channel_id.keyval"),
+#            sql.literal_column("network_id.keyval"),
+#            sql.literal_column("location_id.keyval"),
+#            sql.literal_column("latitude.keyval"),
+#            sql.literal_column("longitude.keyval"),
+#            sql.literal_column("start_datetime.keyval"),
+#            sql.literal_column("end_datetime.keyval"))
+#        return util.compileStatement(query)
 
 
 class SeismicEventSQLView(Component):
@@ -247,7 +246,6 @@ class BeachballMapper(Component):
             linewidth = 2
         if size < 100 or size > 1000:
             size = 100
-
         # generate correct header
         request.setHeader('content-type', 'image/svg+xml; charset=UTF-8')
         # create beachball
@@ -271,7 +269,6 @@ class SeismicEventTypeMapper(Component):
         args['vid'] = request.args0.get('volcano_id', '')
         args['start'] = request.args0.get('start_datetime', 'NOW()')
         args['end'] = request.args0.get('end_datetime', 'NOW()')
-
         # generate XML result
         xml = Element("query")
         # build up and execute query
