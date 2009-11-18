@@ -9,7 +9,8 @@ Contact:
 from lxml.etree import Element, SubElement as Sub
 from obspy.core.utcdatetime import UTCDateTime
 from seishub.core import Component, implements
-from seishub.packages.installer import registerIndex, registerSchema
+from seishub.packages.installer import registerIndex, registerSchema, \
+    registerStylesheet
 from seishub.packages.interfaces import IResourceType, IMapper
 from seishub.util.xmlwrapper import toString
 from sqlalchemy import Table, sql
@@ -26,6 +27,12 @@ class InSARResourceType(Component):
     resourcetype_id = 'insar'
 
     registerSchema('xsd' + os.sep + 'insar.xsd', 'XMLSchema')
+    registerStylesheet('xslt' + os.sep + 'insar_displacement_metadata.xslt',
+                       'metadata.displacement')
+    registerStylesheet('xslt' + os.sep + 'insar_interferogram_metadata.xslt',
+                       'metadata.interferogram')
+    registerStylesheet('xslt' + os.sep + 'insar_differential_metadata.xslt',
+                       'metadata.differential')
 
     registerIndex('project_id', '/InSAR/@project_id', 'text')
     registerIndex('volcano_id', '/InSAR/@volcano_id', 'text')
