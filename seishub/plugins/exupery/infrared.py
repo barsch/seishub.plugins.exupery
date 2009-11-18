@@ -69,6 +69,9 @@ class InfraredResourceType(Component):
     registerIndex('area_hotspot',
                   '/infrared/hotspots/hotspot#area_of_thermal_anomaly_ha',
                   'float')
+    registerIndex('percentage_area_hotspot',
+                  '/infrared/hotspots/hotspot#percentage_of_area_of_thermal_anomaly',
+                  'float')
     registerIndex('effusion_hotspot',
                   '/infrared/hotspots/hotspot#effusion_rate_m3_s', 'float')
     registerIndex('local_path_image',
