@@ -98,7 +98,8 @@ class InfraredHotspotSQLView(Component):
         filter = ['project_id', 'volcano_id', 'latitude_hotspot',
                   'longitude_hotspot', 'start_datetime', 'end_datetime',
                   'radiant_flux_hotspot', 'temperature_hotspot',
-                  'area_hotspot', 'effusion_hotspot']
+                  'area_hotspot', 'percentage_area_hotspot',
+                  'effusion_hotspot']
         xmlindex_list = [x for x in xmlindex_list if x.label in filter]
         if not xmlindex_list:
             return
