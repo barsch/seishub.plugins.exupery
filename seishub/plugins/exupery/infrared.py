@@ -36,7 +36,7 @@ class InfraredResourceType(Component):
     resourcetype_id = 'infrared'
 
     registerSchema('xsd' + os.sep + 'infrared.xsd', 'XMLSchema')
-    registerStylesheet('xslt' + os.sep + 'infrared_hotspots_metdata.xslt',
+    registerStylesheet('xslt' + os.sep + 'infrared_hotspots_metadata.xslt',
                        'metadata')
 
     registerIndex('project_id', '/infrared/@project_id', 'text')
