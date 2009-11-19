@@ -18,7 +18,8 @@ GIS Layer:
 from lxml.etree import Element, SubElement as Sub
 from seishub.core import Component, implements
 from seishub.db import util
-from seishub.packages.installer import registerSchema, registerIndex
+from seishub.packages.installer import registerIndex, registerSchema, \
+    registerStylesheet
 from seishub.packages.interfaces import IResourceType, ISQLView, IMapper
 from seishub.util.xmlwrapper import toString
 from sqlalchemy import sql, Table
@@ -35,6 +36,8 @@ class InfraredResourceType(Component):
     resourcetype_id = 'infrared'
 
     registerSchema('xsd' + os.sep + 'infrared.xsd', 'XMLSchema')
+    registerStylesheet('xslt' + os.sep + 'infrared_hotspots_metdata.xslt',
+                       'metadata')
 
     registerIndex('project_id', '/infrared/@project_id', 'text')
     registerIndex('volcano_id', '/infrared/@volcano_id', 'text')
