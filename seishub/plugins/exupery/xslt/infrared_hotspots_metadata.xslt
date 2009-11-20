@@ -42,11 +42,26 @@
           </xsl:attribute>
         </text>
       </item>
+      <item title="Cloud coverage (%)">
+        <text>
+          <xsl:attribute name="text">
+            <xsl:value-of select="processing/cloud_coverage_percentage" />
+          </xsl:attribute>
+        </text>
+      </item>
       <item title="Sun glint angle (°)">
         <text>
           <xsl:attribute name="text">
             <xsl:value-of select="hotspots_overview/sun_glint_degrees"
              />
+          </xsl:attribute>
+        </text>
+      </item>
+      <item title="Background temperature (K)">
+        <text>
+          <xsl:attribute name="text">
+            <xsl:value-of select="hotspots_overview/background_temperature_K"
+            />
           </xsl:attribute>
         </text>
       </item>
