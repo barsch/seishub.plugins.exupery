@@ -31,7 +31,6 @@ class ModisResourceType(Component):
         'metadata.terra')
     registerIndex('project_id', '/Modis/@project_id', 'text')
     registerIndex('volcano_id', '/Modis/@volcano_id', 'text')
-    registerIndex('datetime', '/Modis/time_of_creation', 'datetime')
     registerIndex('start_datetime', '/Modis/start_datetime/value', 'datetime')
     registerIndex('end_datetime', '/Modis/end_datetime/value', 'datetime')
     registerIndex('upperleft_latitude',
@@ -68,7 +67,8 @@ class _ModisGeoTIFFMapperBase(object):
         oncl = sql.and_(1 == 1)
         # build up query
         columns = [tab.c['document_id'], tab.c['project_id'],
-                   tab.c['volcano_id'], tab.c['datetime'], tab.c[self.type_id]]
+                   tab.c['volcano_id'], tab.c['start_datetime'],
+                   tab.c['start_endtime'] tab.c[self.type_id]]
         query = sql.select(columns, oncl, limit=limit, distinct=True,
                            offset=offset, order_by=tab.c['datetime'])
         # process arguments
@@ -88,14 +88,14 @@ class _ModisGeoTIFFMapperBase(object):
             temp = request.args0.get('start_datetime')
             if temp:
                 temp = UTCDateTime(temp)
-                query = query.where(tab.c['datetime'] >= temp.datetime)
+                query = query.where(tab.c['start_datetime'] >= temp.datetime)
         except:
             pass
         try:
             temp = request.args0.get('end_datetime')
             if temp:
                 temp = UTCDateTime(temp)
-                query = query.where(tab.c['datetime'] <= temp.datetime)
+                query = query.where(tab.c['end_datetime'] < temp.datetime)
         except:
             pass
         # generate XML result
@@ -108,12 +108,17 @@ class _ModisGeoTIFFMapperBase(object):
         for i in results:
             s = Sub(xml, "resource", document_id=str(i.document_id))
             try:
-                temp = i.datetime.isoformat()
+                temp = i.start_datetime.isoformat()
             except:
                 temp = ''
+            Sub(s, 'start_datetime').text = temp
+            try:
+                temp = i.end_datetime.isoformat()
+            except:
+                temp = ''
+            Sub(s, 'end_datetime').text = temp
             Sub(s, 'project_id').text = i['project_id']
             Sub(s, 'volcano_id').text = i['volcano_id']
-            Sub(s, 'datetime').text = temp
             Sub(s, 'url').text = 'local://' + i[self.type_id]
         return toString(xml)
 
