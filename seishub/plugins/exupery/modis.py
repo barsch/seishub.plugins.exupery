@@ -9,7 +9,7 @@ Contact:
 from lxml.etree import Element, SubElement as Sub
 from obspy.core import UTCDateTime
 from seishub.core import Component, implements
-from seishub.packages.installer import registerIndex
+from seishub.packages.installer import registerIndex, registerStylesheet
 from seishub.packages.interfaces import IResourceType, IMapper
 from seishub.util.xmlwrapper import toString
 from sqlalchemy import Table, sql
@@ -24,6 +24,10 @@ class ModisResourceType(Component):
     package_id = 'exupery'
     resourcetype_id = 'modis'
 
+    registerStylesheet('xslt' + os.sep + 'modis_aqua_metadata.xslt',
+        'metadata.aqua')
+    registerStylesheet('xslt' + os.sep + 'modis_terra_metadata.xslt',
+        'metadata.terra')
     registerIndex('project_id', '/Modis/@project_id', 'text')
     registerIndex('volcano_id', '/Modis/@volcano_id', 'text')
     registerIndex('datetime', '/Modis/time_of_creation', 'datetime')
