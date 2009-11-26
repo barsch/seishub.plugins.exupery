@@ -13,6 +13,7 @@ from seishub.packages.installer import registerIndex, registerStylesheet
 from seishub.packages.interfaces import IResourceType, IMapper
 from seishub.util.xmlwrapper import toString
 from sqlalchemy import Table, sql
+import os
 
 
 class ModisResourceType(Component):
