@@ -6,6 +6,27 @@
         method="xml" />
     <xsl:template match="/Trajectories">
         <metadata>
+            <item title="Software">
+                <text>
+                    <xsl:attribute name="text">
+                        <xsl:value-of select="software" />
+                    </xsl:attribute>
+                </text>
+            </item>
+            <item title="Latitude [°]">
+                <text>
+                    <xsl:attribute name="text">
+                        <xsl:value-of select="latitude/value" />
+                    </xsl:attribute>
+                </text>
+            </item>
+            <item title="Longitude [°]">
+                <text>
+                    <xsl:attribute name="text">
+                        <xsl:value-of select="longitude/value" />
+                    </xsl:attribute>
+                </text>
+            </item>
             <item title="Number of Trajectories">
                 <text>
                     <xsl:attribute name="text">
