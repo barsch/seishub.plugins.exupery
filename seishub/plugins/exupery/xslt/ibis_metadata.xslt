@@ -31,7 +31,7 @@
       <item title="IBIS Station Lon [°]">
         <text>
           <xsl:attribute name="text">
-            <xsl:value-of select="station/coords/latitude/value" />
+            <xsl:value-of select="station/coords/longitude/value" />
           </xsl:attribute>
         </text>
       </item>
