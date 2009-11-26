@@ -70,7 +70,7 @@ class _ModisGeoTIFFMapperBase(object):
                    tab.c['volcano_id'], tab.c['start_datetime'],
                    tab.c['end_datetime'], tab.c[self.type_id]]
         query = sql.select(columns, oncl, limit=limit, distinct=True,
-                           offset=offset, order_by=tab.c['datetime'])
+                           offset=offset, order_by=tab.c['start_datetime'])
         # process arguments
         try:
             temp = request.args0.get('project_id')
