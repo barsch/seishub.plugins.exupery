@@ -68,7 +68,7 @@ class _ModisGeoTIFFMapperBase(object):
         # build up query
         columns = [tab.c['document_id'], tab.c['project_id'],
                    tab.c['volcano_id'], tab.c['start_datetime'],
-                   tab.c['start_endtime'] tab.c[self.type_id]]
+                   tab.c['start_endtime'], tab.c[self.type_id]]
         query = sql.select(columns, oncl, limit=limit, distinct=True,
                            offset=offset, order_by=tab.c['datetime'])
         # process arguments
