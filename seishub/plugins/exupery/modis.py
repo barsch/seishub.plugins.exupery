@@ -32,6 +32,8 @@ class ModisResourceType(Component):
     registerIndex('project_id', '/Modis/@project_id', 'text')
     registerIndex('volcano_id', '/Modis/@volcano_id', 'text')
     registerIndex('datetime', '/Modis/time_of_creation', 'datetime')
+    registerIndex('start_datetime', '/Modis/start_datetime/value', 'datetime')
+    registerIndex('end_datetime', '/Modis/end_datetime/value', 'datetime')
     registerIndex('upperleft_latitude',
         '/Modis/range_upperleft/latitude/value', 'float')
     registerIndex('upperleft_longitude',
