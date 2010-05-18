@@ -159,7 +159,7 @@ class GPSDataSQLView(Component):
         # filter indexes
         catalog = self.env.catalog.index_catalog
         xmlindex_list = catalog.getIndexes(package_id='exupery',
-                                           resourcteype_id='gps-data')
+                                           resourcetype_id='gps-data')
         filter = ['project_id', 'volcano_id', 'station_id',
                   'start_datetime', 'end_datetime', 'epoch0_longitude',
                   'epoch0_latitude']
