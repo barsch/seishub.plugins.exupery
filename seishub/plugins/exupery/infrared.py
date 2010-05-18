@@ -96,7 +96,8 @@ class InfraredHotspotSQLView(Component):
     def createView(self):
         # filter indexes
         catalog = self.env.catalog.index_catalog
-        xmlindex_list = catalog.getIndexes('exupery', 'infrared')
+        xmlindex_list = catalog.getIndexes(package_id='exupery',
+                                           resourcetype_id='infrared')
 
         filter = ['project_id', 'volcano_id', 'latitude_hotspot',
                   'longitude_hotspot', 'start_datetime', 'end_datetime',

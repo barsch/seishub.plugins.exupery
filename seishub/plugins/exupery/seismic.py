@@ -27,7 +27,8 @@ class SeismicStationSQLView(Component):
     def createView(self):
         # filter indexes
         catalog = self.env.catalog.index_catalog
-        xmlindex_list = catalog.getIndexes('seismology', 'station')
+        xmlindex_list = catalog.getIndexes(package_id='seismology',
+                                           resourcetype_id='station')
 
         filter = ['network_id', 'station_id', 'location_id', 'channel_id',
                   'latitude', 'longitude', 'start_datetime', 'end_datetime',
@@ -61,7 +62,8 @@ class SeismicStationActivitySQLView(Component):
     def createView(self):
         # filter indexes
         catalog = self.env.catalog.index_catalog
-        xmlindex_list = catalog.getIndexes('seismology', 'station')
+        xmlindex_list = catalog.getIndexes(package_id='seismology',
+                                           resourcetype_id='station')
 
         filter = ['network_id', 'location_id', 'station_id', 'channel_id',
                   'latitude', 'longitude', 'start_datetime', 'end_datetime']
@@ -185,7 +187,8 @@ class SeismicEventSQLView(Component):
     def createView(self):
         # filter indexes
         catalog = self.env.catalog.index_catalog
-        xmlindex_list = catalog.getIndexes('seismology', 'event')
+        xmlindex_list = catalog.getIndexes(package_id='seismology',
+                                           resourcetype_id='event')
         filter = ['datetime', 'latitude', 'longitude', 'depth',
                   'magnitude', 'magnitude_type', 'event_type', 'np1_strike',
                   'np1_dip', 'np1_rake', 'mt_mrr', 'mt_mtt', 'mt_mpp',

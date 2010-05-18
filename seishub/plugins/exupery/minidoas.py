@@ -27,10 +27,10 @@ class MiniDOASStationResourceType(Component):
     MiniDOAS Station resource type.
     """
     implements(IResourceType)
-    
+
     package_id = 'exupery'
     resourcetype_id = 'minidoas-station'
-    
+
     registerStylesheet('xslt' + os.sep + 'minidoas-station_metadata.xslt',
                        'metadata')
     registerIndex('project_id', '/MiniDOAS_Station/@project_id', 'text')
@@ -49,10 +49,10 @@ class MiniDOASDataResourceType(Component):
     MiniDOAS data resource type.
     """
     implements(IResourceType)
-    
+
     package_id = 'exupery'
     resourcetype_id = 'minidoas-data'
-    
+
     registerSchema('xsd' + os.sep + 'minidoas-data.xsd', 'XMLSchema')
     registerIndex('project_id', '/MiniDOAS_data/@project_id', 'text')
     registerIndex('volcano_id', '/MiniDOAS_data/@volcano_id', 'text')
@@ -68,22 +68,23 @@ class MiniDOASStationLayer(Component):
     Creates a MiniDOAS Station distribution layer.
     """
     implements(ISQLView)
-    
+
     view_id = 'gis_minidoas-station'
-    
+
     def createView(self):
         # filter indexes
         catalog = self.env.catalog.index_catalog
-        xmlindex_list = catalog.getIndexes('exupery', 'minidoas-station')
-        
+        xmlindex_list = catalog.getIndexes(package_id='exupery',
+                                           resourcetype_id='minidoas-station')
+
         filter = ['project_id', 'volcano_id', 'station_id', 'latitude',
-                  'longitude', 'start_datetime', 'end_datetime'] 
+                  'longitude', 'start_datetime', 'end_datetime']
         xmlindex_list = [x for x in xmlindex_list if x.label in filter]
         if not xmlindex_list:
             return
         # build up query
         query, joins = catalog._createIndexView(xmlindex_list, compact=True)
-        
+
         options = [
             sql.func.random().label("random"),
             sql.func.GeomFromText(

@@ -125,7 +125,8 @@ class GPSStationSQLView(Component):
     def createView(self):
         # filter indexes
         catalog = self.env.catalog.index_catalog
-        xmlindex_list = catalog.getIndexes('exupery', 'gps-station')
+        xmlindex_list = catalog.getIndexes(package_id='exupery',
+                                           resourcetype_id='gps-station')
         filter = ['project_id', 'volcano_id', 'station_id', 'receiver_type',
                   'start_datetime', 'end_datetime', 'longitude', 'latitude']
         xmlindex_list = [x for x in xmlindex_list if x.label in filter]
@@ -157,7 +158,8 @@ class GPSDataSQLView(Component):
     def createView(self):
         # filter indexes
         catalog = self.env.catalog.index_catalog
-        xmlindex_list = catalog.getIndexes('exupery', 'gps-data')
+        xmlindex_list = catalog.getIndexes(package_id='exupery',
+                                           resourcteype_id='gps-data')
         filter = ['project_id', 'volcano_id', 'station_id',
                   'start_datetime', 'end_datetime', 'epoch0_longitude',
                   'epoch0_latitude']
@@ -351,7 +353,8 @@ class GPSTimeSeriesMapper2(Component):
     def createView(self):
         # filter indexes
         catalog = self.env.catalog.index_catalog
-        xmlindex_list = catalog.getIndexes('exupery', 'gps-data')
+        xmlindex_list = catalog.getIndexes(package_id='exupery',
+                                           resourcteype_id='gps-data')
         filter = ['station_id', 'start_datetime', 'end_datetime',
                   'abs_conf_azimuth_a', 'abs_conf_ellipse_b',
                   'abs_conf_ellipse_a', 'abs_height_conf', 'abs_height',
