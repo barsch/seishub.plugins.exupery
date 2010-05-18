@@ -354,7 +354,7 @@ class GPSTimeSeriesMapper2(Component):
         # filter indexes
         catalog = self.env.catalog.index_catalog
         xmlindex_list = catalog.getIndexes(package_id='exupery',
-                                           resourcteype_id='gps-data')
+                                           resourcetype_id='gps-data')
         filter = ['station_id', 'start_datetime', 'end_datetime',
                   'abs_conf_azimuth_a', 'abs_conf_ellipse_b',
                   'abs_conf_ellipse_a', 'abs_height_conf', 'abs_height',
