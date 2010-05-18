@@ -34,39 +34,39 @@ class SO2GOME2ResourceType(Component):
     SO2 GOME2 resource type.
     """
     implements(IResourceType)
-    
+
     package_id = 'exupery'
     resourcetype_id = 'so2-gome2'
-    
+
     registerSchema('xsd' + os.sep + 'so2-gome2.xsd', 'XMLSchema')
     registerStylesheet('xslt' + os.sep + 'so2-gome2_metadata.xslt', 'metadata')
     registerIndex('project_id', '/SO2/@project_id', 'text')
     registerIndex('volcano_id', '/SO2/@volcano_id', 'text')
     registerIndex('start_datetime', '/SO2/start_datetime/value', 'datetime')
     registerIndex('end_datetime', '/SO2/end_datetime/value', 'datetime')
-    registerIndex('upperleft_latitude', 
+    registerIndex('upperleft_latitude',
                   '/SO2/range_upperleft/latitude/value', 'float')
-    registerIndex('upperleft_longitude', 
+    registerIndex('upperleft_longitude',
                   '/SO2/range_upperleft/longitude/value', 'float')
-    registerIndex('lowerright_latitude', 
+    registerIndex('lowerright_latitude',
                   '/SO2/range_lowerright/latitude/value', 'float')
-    registerIndex('lowerright_longitude', 
+    registerIndex('lowerright_longitude',
                   '/SO2/range_lowerright/longitude/value', 'float')
     registerIndex('max_SO2_value', '/SO2/max_SO2_value', 'float')
-    registerIndex('SO2_range1', 
-                  '/SO2/measurements_with_SO2_between_0.5DU_and_1DU', 
+    registerIndex('SO2_range1',
+                  '/SO2/measurements_with_SO2_between_0.5DU_and_1DU',
                   'numeric')
-    registerIndex('SO2_range2', 
-                  '/SO2/measurements_with_SO2_between_1DU_and_1.5DU', 
+    registerIndex('SO2_range2',
+                  '/SO2/measurements_with_SO2_between_1DU_and_1.5DU',
                   'numeric')
-    registerIndex('SO2_range3', 
+    registerIndex('SO2_range3',
                   '/SO2/measurements_with_SO2_above_1.5DU', 'numeric')
     registerIndex('alert_level', '/SO2/SO2_alert_level', 'numeric')
-    registerIndex('local_path_image', 
-                  '/SO2/files/file/local_path[../@id="GOME2_SO2 image"]', 
+    registerIndex('local_path_image',
+                  '/SO2/files/file/local_path[../@id="GOME2_SO2 image"]',
                   'text')
-    registerIndex('local_path_grid', 
-                  '/SO2/files/file/local_path[../@id="GOME2_SO2 data"]', 
+    registerIndex('local_path_grid',
+                  '/SO2/files/file/local_path[../@id="GOME2_SO2 data"]',
                   'text')
 
 
@@ -75,32 +75,32 @@ class SO2TrajectoriesResourceType(Component):
     SO2 Trajectories resource type.
     """
     implements(IResourceType)
-    
+
     package_id = 'exupery'
     resourcetype_id = 'so2-traj-disp'
-    
+
     registerSchema('xsd' + os.sep + 'so2-traj-disp.xsd', 'XMLSchema')
     registerStylesheet('xslt' + os.sep + 'so2-traj-disp_kml.xslt', 'kml')
-    registerStylesheet('xslt' + os.sep + 'so2-traj-disp_metadata.xslt', 
+    registerStylesheet('xslt' + os.sep + 'so2-traj-disp_metadata.xslt',
                        'metadata')
     registerIndex('project_id', '/Trajectories/@project_id', 'text')
     registerIndex('volcano_id', '/Trajectories/@volcano_id', 'text')
-    registerIndex('start_datetime', '/Trajectories/start_datetime/value', 
+    registerIndex('start_datetime', '/Trajectories/start_datetime/value',
                   'datetime')
-    registerIndex('end_datetime', '/Trajectories/end_datetime/value', 
+    registerIndex('end_datetime', '/Trajectories/end_datetime/value',
                   'datetime')
-    registerIndex('upperleft_latitude', 
+    registerIndex('upperleft_latitude',
                   '/Trajectories/range_upperleft/latitude/value', 'float')
-    registerIndex('upperleft_longitude', 
+    registerIndex('upperleft_longitude',
                   '/Trajectories/range_upperleft/longitude/value', 'float')
-    registerIndex('lowerright_latitude', 
+    registerIndex('lowerright_latitude',
                   '/Trajectories/range_lowerright/latitude/value', 'float')
-    registerIndex('lowerright_longitude', 
+    registerIndex('lowerright_longitude',
                   '/Trajectories/range_lowerright/longitude/value', 'float')
     registerIndex('latitude', '/Trajectories/latitude/value', 'float')
     registerIndex('longitude', '/Trajectories/longitude/value', 'float')
-    registerIndex('local_path_image', 
-                  '/Trajectories/files/file/local_path[../@format="GeoTIFF"]', 
+    registerIndex('local_path_image',
+                  '/Trajectories/files/file/local_path[../@format="GeoTIFF"]',
                   'text')
 
 
@@ -109,10 +109,10 @@ class SO2GOME2GeoTIFFMapper(Component):
     Returns a list of filtered SO2 GOME2 GeoTiff files.
     """
     implements(IMapper)
-    
+
     package_id = 'exupery'
     mapping_url = '/exupery/wp2/so2/gome2/geotiff'
-    
+
     def process_GET(self, request):
         # parse input arguments
         pid = request.args0.get('project_id', '')
@@ -133,7 +133,7 @@ class SO2GOME2GeoTIFFMapper(Component):
             result = self.env.db.query(query, pid=pid)
         except:
             return toString(xml)
-        
+
         for i in result:
             s = Sub(xml, "resource", document_id=str(i.document_id))
             Sub(s, 'start_datetime').text = (i.start_datetime).isoformat()
@@ -147,10 +147,10 @@ class SO2GOME2GridMapper(Component):
     Returns a list of filtered SO2 GOME2 Grid files.
     """
     implements(IMapper)
-    
+
     package_id = 'exupery'
     mapping_url = '/exupery/wp2/so2/gome2/grid'
-    
+
     def process_GET(self, request):
         # parse input arguments
         pid = request.args0.get('project_id', '')
@@ -171,7 +171,7 @@ class SO2GOME2GridMapper(Component):
             result = self.env.db.query(query, pid=pid)
         except:
             return toString(xml)
-        
+
         for i in result:
             s = Sub(xml, "resource", document_id=str(i.document_id))
             Sub(s, 'start_datetime').text = (i.start_datetime).isoformat()
@@ -185,10 +185,10 @@ class SO2TrajectoriesKMLMapper(Component):
     Returns a list of filtered SO2 Trajectories KML files.
     """
     implements(IMapper)
-    
+
     package_id = 'exupery'
     mapping_url = '/exupery/wp2/so2/trajectories/kml'
-    
+
     def process_GET(self, request):
         # parse input arguments
         pid = request.args0.get('project_id', '')
@@ -199,7 +199,7 @@ class SO2TrajectoriesKMLMapper(Component):
             SELECT
                 document_id, 
                 start_datetime, 
-                end_datetime, 
+                end_datetime
             FROM "/exupery/so2-traj-disp"
             WHERE project_id = :pid
         """)
@@ -207,7 +207,7 @@ class SO2TrajectoriesKMLMapper(Component):
             result = self.env.db.query(query, pid=pid)
         except:
             return toString(xml)
-        
+
         for i in result:
             s = Sub(xml, "resource", document_id=str(i.document_id))
             Sub(s, 'start_datetime').text = (i.start_datetime).isoformat()
@@ -222,10 +222,10 @@ class SO2DispersionGeoTIFFMapper(Component):
     Returns a list of filtered SO2 Dispersion GeoTiff files.
     """
     implements(IMapper)
-    
+
     package_id = 'exupery'
     mapping_url = '/exupery/wp2/so2/dispersion/geotiff'
-    
+
     def process_GET(self, request):
         # parse input arguments
         pid = request.args0.get('project_id', '')
@@ -246,7 +246,7 @@ class SO2DispersionGeoTIFFMapper(Component):
             result = self.env.db.query(query, pid=pid)
         except:
             return toString(xml)
-        
+
         for i in result:
             s = Sub(xml, "resource", document_id=str(i.document_id))
             Sub(s, 'start_datetime').text = (i.start_datetime).isoformat()
