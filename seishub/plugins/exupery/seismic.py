@@ -12,7 +12,7 @@ from seishub.db import util
 from seishub.packages.interfaces import ISQLView, IMapper
 from seishub.util.xmlwrapper import toString
 from sqlalchemy import sql
-from seishub.registry.defaults import miniseed_tab
+#from seishub.registry.defaults import miniseed_tab
 from seishub.xmldb.defaults import document_tab
 
 
