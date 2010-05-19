@@ -12,7 +12,7 @@ from seishub.db import util
 from seishub.packages.interfaces import ISQLView, IMapper
 from seishub.util.xmlwrapper import toString
 from sqlalchemy import sql
-#from seishub.registry.defaults import miniseed_tab
+from obspy.db.db import WaveformChannel
 from seishub.xmldb.defaults import document_tab
 
 
@@ -51,68 +51,68 @@ class SeismicStationSQLView(Component):
         return util.compileStatement(query)
 
 
-#class SeismicStationActivitySQLView(Component):
-#    """
-#    Seismic station activity layer.
-#    """
-#    implements(ISQLView)
-#
-#    view_id = 'gis_seismic-station-activity'
-#
-#    def createView(self):
-#        # filter indexes
-#        catalog = self.env.catalog.index_catalog
-#        xmlindex_list = catalog.getIndexes(package_id='seismology',
-#                                           resourcetype_id='station')
-#
-#        filter = ['network_id', 'location_id', 'station_id', 'channel_id',
-#                  'latitude', 'longitude', 'start_datetime', 'end_datetime']
-#        xmlindex_list = [x for x in xmlindex_list if x.label in filter]
-#        if not xmlindex_list:
-#            return
-#        # build up query
-#        query, joins = catalog._createIndexView(xmlindex_list, compact=True)
-#
-#        options = [
-#            sql.functions.max(miniseed_tab.c['end_datetime']).label("latest_activity"),
-#            # XXX: not UTC!!!!
-#            (sql.func.now() - sql.functions.max(miniseed_tab.c['end_datetime'])).label("latency"),
-#            (sql.literal_column("end_datetime.keyval") == None).label("active"),
-#            sql.func.random().label("random"),
-#            sql.func.GeomFromText(
-#                sql.text("'POINT(' || longitude.keyval || ' ' || " + \
-#                         "latitude.keyval || ')', 4326")).label('geom')
-#        ]
-#        for option in options:
-#            query.append_column(option)
-#        oncl = miniseed_tab.c['network_id'] == sql.literal_column("network_id.keyval")
-#        oncl = sql.and_(oncl, miniseed_tab.c['station_id'] == sql.literal_column("station_id.keyval"))
-#        oncl = sql.and_(oncl, miniseed_tab.c['channel_id'] == sql.literal_column("channel_id.keyval"))
-#        oncl = sql.and_(oncl, sql.or_(
-#            miniseed_tab.c['location_id'] == sql.literal_column("location_id.keyval"),
-#            sql.and_(
-#                miniseed_tab.c['location_id'] == None,
-#                sql.literal_column("location_id.keyval") == None
-#            )))
-#        oncl = sql.and_(oncl, miniseed_tab.c['end_datetime'] > sql.literal_column("start_datetime.keyval"))
-#        oncl = sql.and_(oncl, sql.or_(
-#            miniseed_tab.c['end_datetime'] <= sql.literal_column("end_datetime.keyval"),
-#            sql.literal_column("end_datetime.keyval") == None
-#            ))
-#
-#
-#        joins = joins.join(miniseed_tab, onclause=oncl)
-#        query = query.select_from(joins).group_by(
-#            document_tab.c['id'],
-#            sql.literal_column("station_id.keyval"),
-#            sql.literal_column("channel_id.keyval"),
-#            sql.literal_column("network_id.keyval"),
-#            sql.literal_column("location_id.keyval"),
-#            sql.literal_column("latitude.keyval"),
-#            sql.literal_column("longitude.keyval"),
-#            sql.literal_column("start_datetime.keyval"),
-#            sql.literal_column("end_datetime.keyval"))
-#        return util.compileStatement(query)
+class SeismicStationActivitySQLView(Component):
+    """
+    Seismic station activity layer.
+    """
+    implements(ISQLView)
+
+    view_id = 'gis_seismic-station-activity'
+
+    def createView(self):
+        # filter indexes
+        catalog = self.env.catalog.index_catalog
+        xmlindex_list = catalog.getIndexes(package_id='seismology',
+                                           resourcetype_id='station')
+
+        filter = ['network_id', 'location_id', 'station_id', 'channel_id',
+                  'latitude', 'longitude', 'start_datetime', 'end_datetime']
+        xmlindex_list = [x for x in xmlindex_list if x.label in filter]
+        if not xmlindex_list:
+            return
+        # build up query
+        query, joins = catalog._createIndexView(xmlindex_list, compact=True)
+
+        options = [
+            sql.functions.max(WaveformChannel.endtime).label("latest_activity"),
+            # XXX: not UTC!!!!
+            (sql.func.now() - sql.functions.max(WaveformChannel.endtime)).label("latency"),
+            (sql.literal_column("end_datetime.keyval") == None).label("active"),
+            sql.func.random().label("random"),
+            sql.func.GeomFromText(
+                sql.text("'POINT(' || longitude.keyval || ' ' || " + \
+                         "latitude.keyval || ')', 4326")).label('geom')
+        ]
+        for option in options:
+            query.append_column(option)
+        oncl = WaveformChannel.network == sql.literal_column("network_id.keyval")
+        oncl = sql.and_(oncl, WaveformChannel.station == sql.literal_column("station_id.keyval"))
+        oncl = sql.and_(oncl, WaveformChannel.channel == sql.literal_column("channel_id.keyval"))
+        oncl = sql.and_(oncl, sql.or_(
+            WaveformChannel.location == sql.literal_column("location_id.keyval"),
+            sql.and_(
+                WaveformChannel.location == None,
+                sql.literal_column("location_id.keyval") == None
+            )))
+        oncl = sql.and_(oncl, WaveformChannel.endtime > sql.literal_column("start_datetime.keyval"))
+        oncl = sql.and_(oncl, sql.or_(
+            WaveformChannel.endtime <= sql.literal_column("end_datetime.keyval"),
+            sql.literal_column("end_datetime.keyval") == None
+            ))
+
+
+        joins = joins.join(WaveformChannel, onclause=oncl)
+        query = query.select_from(joins).group_by(
+            document_tab.c['id'],
+            sql.literal_column("station_id.keyval"),
+            sql.literal_column("channel_id.keyval"),
+            sql.literal_column("network_id.keyval"),
+            sql.literal_column("location_id.keyval"),
+            sql.literal_column("latitude.keyval"),
+            sql.literal_column("longitude.keyval"),
+            sql.literal_column("start_datetime.keyval"),
+            sql.literal_column("end_datetime.keyval"))
+        return util.compileStatement(query)
 
 
 #class SeismicStationQualitySQLView(Component):
