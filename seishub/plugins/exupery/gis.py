@@ -257,6 +257,9 @@ class GISUserAuthMapper(Component):
     package_id = 'exupery'
     mapping_url = '/exupery/gis/auth'
 
+    # allow public access
+    public = True
+
     def process_GET(self, request):
         # generate a plain text file
         request.setHeader('content-type', 'text/plain; charset=UTF-8')
