@@ -101,7 +101,7 @@ class SeismicStationActivitySQLView(Component):
             ))
 
 
-        joins = joins.join(WaveformChannel, onclause=oncl)
+        joins = joins.join("default_waveform_channels", onclause=oncl)
         query = query.select_from(joins).group_by(
             document_tab.c['id'],
             sql.literal_column("station_id.keyval"),
