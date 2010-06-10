@@ -17,6 +17,16 @@ METADATA_RESOURCE_LINK = """
   </metadata>
 """
 
+METADATA_AL_LINK = """
+    <item title="XML Resource">
+      <link href="%s/xml%s" text="%s" />
+    </item>
+    <item title="XDSL Resource">
+      <link href="%s/xml%s?format=smile" text="%s" />
+    </item>
+  </metadata>
+"""
+
 METADATA_ALLOWED_VIEWS = {
     'gis_seismic-station': 0,
     'gis_gps-data': 0,
@@ -113,9 +123,18 @@ class GISMetadataMapper(Component):
         else:
             xslt = xslt[0]
             xmldoc = xslt.transform(data)
-        # append resource a XML to metadata
-        res_link = METADATA_RESOURCE_LINK % (self.env.getRestUrl(), str(res),
-                                             res.name)
+        # append resource XML to metadata
+        if data[:70].find("alert_level") != -1:
+            # for the alert_level (that is there is an alert_level string
+            # in the first 70 characters of the XML), also return a link
+            # to the stylesheet transformed XSLT resource
+            res_link = METADATA_AL_LINK % (self.env.getRestUrl(), str(res),
+                                           res.name, self.env.getRestUrl(),
+                                           str(res), res.name)
+        else:
+            res_link = METADATA_RESOURCE_LINK % (self.env.getRestUrl(), str(res),
+                                                 res.name)
+        #
         xmldoc = xmldoc.replace('</metadata>', str(res_link))
         return str(xmldoc)
 
