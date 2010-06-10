@@ -123,6 +123,47 @@ class S024AlertMapper(Component):
             Sub(s, 'SO2_range3').text = str(i.SO2_range3)
         return toString(xml)
 
+class Event4AlertMapper(Component):
+    """
+    Returns a list of Events depending on type
+    """
+    implements(IMapper)
+
+    package_id = 'exupery'
+    mapping_url = '/exupery/wp3/alert-level/event4alert'
+
+    def process_GET(self, request):
+        # parse input arguments
+        args = {}
+        args['pid'] = request.args0.get('project_id', '')
+        args['start'] = request.args0.get('start_datetime', '')
+        args['end'] = request.args0.get('end_datetime', '')
+        args['event'] = request.args0.get('event', '')
+
+        # generate XML result
+        xml = Element("query")
+        # build up and execute query
+        query = sql.text("""
+           SELECT DISTINCT
+               document_id,
+               event_type
+           FROM "/seismology/event"
+           WHERE event_type = :event
+           AND datetime > :start
+           AND datetime < :end
+        """)
+        #XXX project_id is missing in seismic events!!!
+        # AND project_id = :pid
+        try:
+            result = self.env.db.query(query, **args)
+        except:
+            return toString(xml)
+
+        for i in result:
+            s = Sub(xml, "resource", document_id=str(i.document_id))
+            Sub(s, 'event_type').text = str(i.event_type)
+        return toString(xml)
+
 
 class Infrared4AlertMapper(Component):
     """
