@@ -1,3 +1,0 @@
-[seishub.plugins]
-seishub.plugins.exupery = seishub.plugins.exupery
-
