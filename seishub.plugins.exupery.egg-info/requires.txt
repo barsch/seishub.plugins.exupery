@@ -8,4 +8,3 @@ obspy.imaging
 obspy.xseed
 obspy.arclink
 obspy.db
-matplotlib

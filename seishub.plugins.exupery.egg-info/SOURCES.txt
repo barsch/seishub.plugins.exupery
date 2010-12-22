@@ -9,6 +9,9 @@ seishub.plugins.exupery.egg-info/not-zip-safe
 seishub.plugins.exupery.egg-info/requires.txt
 seishub.plugins.exupery.egg-info/top_level.txt
 seishub/plugins/__init__.py
+seishub/plugins/exupery/LICENSE.txt
+seishub/plugins/exupery/README.txt
+seishub/plugins/exupery/VERSION.txt
 seishub/plugins/exupery/__init__.py
 seishub/plugins/exupery/alertlevel.py
 seishub/plugins/exupery/gis.py
