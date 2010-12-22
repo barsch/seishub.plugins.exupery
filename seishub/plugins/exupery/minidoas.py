@@ -13,11 +13,11 @@ GIS Layer:
 URL to external program to display time series
 """
 
-from seishub.core import Component, implements
-from seishub.db import util
-from seishub.packages.installer import registerIndex, registerStylesheet, \
+from seishub.core.core import Component, implements
+from seishub.core.db import util
+from seishub.core.packages.installer import registerIndex, registerStylesheet, \
     registerSchema
-from seishub.packages.interfaces import IResourceType, ISQLView
+from seishub.core.packages.interfaces import IResourceType, ISQLView
 from sqlalchemy import sql
 import os
 

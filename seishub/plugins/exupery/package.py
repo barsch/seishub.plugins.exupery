@@ -1,15 +1,15 @@
 # -*- coding: utf-8 -*-
 """
-Exupery package for SeisHub.
+Exupery package for seishub.core.
 """
 
-from seishub.core import Component, implements
-from seishub.packages.interfaces import IPackage
+from seishub.core.core import Component, implements
+from seishub.core.packages.interfaces import IPackage
 
 
 class ExuperyPackage(Component):
     """
-    Exupery package for SeisHub.
+    Exupery package for seishub.core.
     """
     implements(IPackage)
     

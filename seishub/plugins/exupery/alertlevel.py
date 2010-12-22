@@ -16,10 +16,10 @@ GIS Layer:
 """
 
 from lxml.etree import Element, SubElement as Sub
-from seishub.core import Component, implements
-from seishub.packages.installer import registerIndex, registerStylesheet
-from seishub.packages.interfaces import IResourceType, IMapper
-from seishub.util.xmlwrapper import toString
+from seishub.core.core import Component, implements
+from seishub.core.packages.installer import registerIndex, registerStylesheet
+from seishub.core.packages.interfaces import IResourceType, IMapper
+from seishub.core.util.xmlwrapper import toString
 from sqlalchemy import sql
 import os
 

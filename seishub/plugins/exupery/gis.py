@@ -4,9 +4,9 @@ Exupery - GIS resources.
 """
 
 from obspy.core import UTCDateTime
-from seishub.core import Component, implements
-from seishub.packages.installer import registerIndex
-from seishub.packages.interfaces import IMapper, IResourceType
+from seishub.core.core import Component, implements
+from seishub.core.packages.installer import registerIndex
+from seishub.core.packages.interfaces import IMapper, IResourceType
 from sqlalchemy import sql
 
 

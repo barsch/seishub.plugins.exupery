@@ -7,13 +7,13 @@ Contact:
 """
 
 from lxml.etree import Element, SubElement as Sub
-from seishub.core import Component, implements
-from seishub.db import util
-from seishub.packages.interfaces import ISQLView, IMapper
-from seishub.util.xmlwrapper import toString
+from seishub.core.core import Component, implements
+from seishub.core.db import util
+from seishub.core.packages.interfaces import ISQLView, IMapper
+from seishub.core.util.xmlwrapper import toString
 from sqlalchemy import sql
 from obspy.db.db import WaveformChannel
-from seishub.xmldb.defaults import document_tab
+from seishub.core.xmldb.defaults import document_tab
 
 
 class SeismicStationSQLView(Component):

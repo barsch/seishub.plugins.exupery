@@ -19,12 +19,12 @@ URL to external program to display time series
 
 from lxml.etree import Element, SubElement as Sub
 from obspy.core import UTCDateTime
-from seishub.core import Component, implements
-from seishub.db import util
-from seishub.packages.installer import registerIndex, registerSchema, \
+from seishub.core.core import Component, implements
+from seishub.core.db import util
+from seishub.core.packages.installer import registerIndex, registerSchema, \
     registerStylesheet
-from seishub.packages.interfaces import IResourceType, ISQLView, IMapper
-from seishub.util.xmlwrapper import toString
+from seishub.core.packages.interfaces import IResourceType, ISQLView, IMapper
+from seishub.core.util.xmlwrapper import toString
 from sqlalchemy import Table, sql
 import os
 
