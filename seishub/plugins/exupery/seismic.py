@@ -12,8 +12,8 @@ from seishub.core.db import util
 from seishub.core.packages.interfaces import ISQLView, IMapper
 from seishub.core.util.xmlwrapper import toString
 from sqlalchemy import sql
-from obspy.db.db import WaveformChannel
-from seishub.core.xmldb.defaults import document_tab
+from obspy.db.db import WaveformChannel, Base
+from seishub.core.xmldb.defaults import document_tab, document_meta_tab
 
 
 class SeismicStationSQLView(Component):
@@ -60,6 +60,9 @@ class SeismicStationActivitySQLView(Component):
     view_id = 'gis_seismic-station-activity'
 
     def createView(self):
+        # make sure the relevant database tables exist!
+        metadata = Base.metadata
+        metadata.create_all(self.db.engine, checkfirst=True)
         # filter indexes
         catalog = self.env.catalog.index_catalog
         xmlindex_list = catalog.getIndexes(package_id='seismology',
@@ -100,10 +103,10 @@ class SeismicStationActivitySQLView(Component):
             sql.literal_column("end_datetime.keyval") == None
             ))
 
-
-        joins = joins.join("default_waveform_channels", onclause=oncl)
+        #joins = joins.join("default_waveform_channels", onclause=oncl)
         query = query.select_from(joins).group_by(
             document_tab.c['id'],
+            document_meta_tab.c['datetime'],
             sql.literal_column("station_id.keyval"),
             sql.literal_column("channel_id.keyval"),
             sql.literal_column("network_id.keyval"),
