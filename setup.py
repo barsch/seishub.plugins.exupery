@@ -61,10 +61,7 @@ setup(
         'obspy.arclink',
         'obspy.db',
     ],
-    dependency_links=[
-        "https://svn.obspy.org/obspy.db/trunk#egg=obspy.db-dev"
-    ],
-    download_url="https://svn.geophysik.uni-muenchen.de/svn/seishub/trunk/seishub.plugins.exupery#egg=seishub.plugins.exupery-dev",
+    download_url="https://github.com/barsch/seishub.plugins.exupery/zipball/master#egg=seishub.plugins.exupery-dev",
     entry_points={'seishub.plugins': [
         'seishub.plugins.exupery = seishub.plugins.exupery', ]
     },
