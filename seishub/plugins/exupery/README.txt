@@ -6,7 +6,7 @@ Copyright
     GNU Lesser General Public License, Version 3
     (http://www.gnu.org/copyleft/lesser.html)
 
-    Copyright (c) 2007-2011 by:
+    Copyright (c) 2007-2012 by:
         * Robert Barsch
         * Moritz Beyreuther
 
@@ -29,4 +29,4 @@ Dependencies
     * obspy.imaging
     * obspy.xseed
     * obspy.arclink
-    * obspy.db (https://svn.obspy.org/obspy.db/trunk#egg=obspy.db-dev)
+    * obspy.db
