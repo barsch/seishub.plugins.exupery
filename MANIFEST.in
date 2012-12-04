@@ -1,0 +1,5 @@
+include seishub/plugins/exupery/LICENSE.txt
+include seishub/plugins/exupery/README.txt
+include seishub/plugins/exupery/VERSION.txt
+include seishub/plugins/exupery/xsd/*
+include seishub/plugins/exupery/xslt/*

@@ -22,11 +22,4 @@ Dependencies
 ------------
     * setuptools
     * seishub.core
-    * obspy.core
-    * obspy.mseed
-    * obspy.gse2
-    * obspy.seishub
-    * obspy.imaging
-    * obspy.xseed
-    * obspy.arclink
-    * obspy.db
+    * obspy
