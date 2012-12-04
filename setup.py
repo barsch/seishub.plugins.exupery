@@ -52,7 +52,6 @@ setup(
     install_requires=[
         'setuptools',
         'seishub.core',
-        'obspy',
     ],
     download_url="https://github.com/barsch/seishub.plugins.exupery/zipball/master#egg=seishub.plugins.exupery-dev",
     entry_points={'seishub.plugins': [
